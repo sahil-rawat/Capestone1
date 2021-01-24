@@ -1,12 +1,34 @@
-class ProjectData:
+class ProjectData:    
+    """
+    This class is used to store the project data of individual applications. In three level of hierarchies,
+    Orange, Red and Blue.
+    """  
     import sqlite3
     global sqlite3    
     
-    def __init__(self, application_id, project_title, category=None, skills_required=None,description=None):
+    def __init__(self, application_id, project_title, category, skills_required,description):
+        '''        
+        Initializing the class Project Data
+        
+        Parameters
+        ----------
+        application_id : INT
+            Application ID of individual Project.
+        project_title : String
+            Project Title for the Project.
+        category : String, optional
+            Category for the Project. The default is None.
+        skills_required : String, optional
+            Skills Required for the Project. The default is None.
+        description : String, optional
+            Description for the Project. The default is None.
+        Returns
+        -------
+        None.
+
+        '''
         self.application_id = application_id
-        
-        conn = sqlite3.connect('Data.db')
-        
+        conn = sqlite3.connect('Data.db')        
         try:  
             conn.execute('''CREATE TABLE IF NOT EXISTS Project 
                          (Appn_ID INT NOT NULL,
@@ -26,9 +48,58 @@ class ProjectData:
             conn.close()
     
     
-    
+    def add_additional_details(self, git_link = None, doc_link = None, slack_link = None):
+        '''
+        Parameters
+        ----------
+        git_link : String, optional
+            Git Hub Repository Link of Project. The default is None.
+        doc_link : String, optional
+            Docs Link of Project. The default is None.
+        slack_link : String, optional
+            Slack Link of Project. The default is None.
+
+        Returns
+        -------
+        None.
+
+        '''
+        conn = sqlite3.connect('Data.db')
+        try:
+            conn.execute('''CREATE TABLE IF NOT EXISTS Additional
+                         (Appn_ID INT NOT NULL,
+                         GitLink TEXT NULL,
+                         DocLink TEXT NULL,
+                         SlackLink TEXT NULL,
+                         PRIMARY KEY (Appn_ID)
+                         );''')
+            params = [self.application_id, git_link, doc_link, slack_link]             
+            conn.execute("REPLACE INTO Additional Values(?,?,?,?)",params)
+        except Exception as e:
+            print(e)
+        finally:
+            conn.commit()
+            conn.close()
+        
     
     def add_orange_sub_heading(self, orange_order, orange_title, description = None):
+        '''
+        Level 1: Hierarchial Level(Orange)
+
+        Parameters
+        ----------
+        orange_order : INT
+            Index of the tile.
+        orange_title : String
+            Title of tile.
+        description : String, optional
+            Description of tile. The default is None.
+
+        Returns
+        -------
+        None.
+
+        '''
         conn = sqlite3.connect('Data.db')
         try:
 
@@ -51,6 +122,29 @@ class ProjectData:
     
             
     def add_red_sub_heading(self,parent_order, red_order, red_title, duration = None, skills_tags = None, description = None):
+        '''
+        Level 2: Hierarchial Level(Red)
+
+        Parameters
+        ----------
+        parent_order : INT
+            Index of Orange(Level 1) Tile
+        red_order : INT
+            Index of Tile.
+        red_title : String
+            Title of tile.
+        duration : INT, optional
+            Duration of particular task in days. The default is None.
+        skills_tags : String, optional
+            Skills required for particular task. The default is None.
+        description : String, optional
+            Description of particular tile. The default is None.
+
+        Returns
+        -------
+        None.
+
+        '''
         conn = sqlite3.connect('Data.db')
         try:                
             conn.execute('''CREATE TABLE IF NOT EXISTS Red
@@ -64,8 +158,6 @@ class ProjectData:
                          PRIMARY KEY (Appn_ID, OParentOrder, TileOrder)
                          );''')
             
-          
-                
             params = [self.application_id, parent_order, red_order, red_title, duration, skills_tags, description]             
             conn.execute("REPLACE INTO Red Values(?,?,?,?,?,?,?)",params)
         except Exception as e:
@@ -75,30 +167,58 @@ class ProjectData:
             conn.close()
     
     def add_blue_subheading(self, parent_order, blue_order, blue_title, link_desc = None):
+        '''
+        Level 3: Hierarchial Level(Blue)
+
+        Parameters
+        ----------
+        parent_order : INT
+            Index of Red(Level 2) Tile.
+        blue_order : INT
+            Index of Tile.
+        blue_title : String
+            Title of tile.
+        link_desc : String, optional
+            Description or refeerence links. The default is None.
+
+        Returns
+        -------
+        None.
+
+        '''
         conn = sqlite3.connect('Data.db')
         try: 
-                conn.execute('''CREATE TABLE IF NOT EXISTS Blue
-                             (Appn_ID INT NOT NULL,
-                             RParentOrder INT NOT NULL,
-                             TileOrder INT NOT NULL,
-                             BlueTitle TEXT NOT NULL,
-                             LinkDesc TEXT NULL,
-                             PRIMARY KEY (Appn_ID, RParentOrder, TileOrder)
-                             );''')
-                
-              
-                    
-                params = [self.application_id, parent_order, blue_order, blue_title, link_desc]             
-                conn.execute("REPLACE INTO Blue Values(?,?,?,?,?)",params)
+            conn.execute('''CREATE TABLE IF NOT EXISTS Blue
+                         (Appn_ID INT NOT NULL,
+                         RParentOrder INT NOT NULL,
+                         TileOrder INT NOT NULL,
+                         BlueTitle TEXT NOT NULL,
+                         LinkDesc TEXT NULL,
+                         PRIMARY KEY (Appn_ID, RParentOrder, TileOrder)
+                         );''')
+            
+   
+            params = [self.application_id, parent_order, blue_order, blue_title, link_desc]             
+            conn.execute("REPLACE INTO Blue Values(?,?,?,?,?)",params)
         except Exception as e:
             print(e)
         finally:
             conn.commit()   
             conn.close()
-    
+    def __del__(self):
+        conn = sqlite3.connect('Data.db')
+        try:
+            conn.execute(f'''DELETE FROM Project WHERE Appn_ID = {self.application_id};''')
+            conn.execute(f'''DELETE FROM Additional WHERE Appn_ID = {self.application_id};''')
+            conn.execute(f'''DELETE FROM Orange WHERE Appn_ID = {self.application_id};''')
+            conn.execute(f'''DELETE FROM Red WHERE Appn_ID = {self.application_id};''')
+            conn.execute(f'''DELETE FROM Blue WHERE Appn_ID = {self.application_id};''')
+        except Exception as e:
+            print(e)
+        finally:
+            conn.commit()   
+            conn.close()
 
-        
-    
     def save(self):
         try:
             pass
@@ -113,9 +233,9 @@ class ProjectData:
 #%% Testing Code
 
 if __name__ == "__main__":
-    member1 = ProjectData(1,"Member 1 ka project",category="Android",description='''Member 1 ke project ka description.''')
-    member2 = ProjectData(2,"Member 2 ka project",category="Web",description='''Member 2 ke project ka description.''')                      
-    member3 = ProjectData(3,"Member 3 ka project",category="OS",description='''Member 3 ke project ka description.''')                      
+    member1 = ProjectData(1,"Member 1 ka project",category="Android",description='''Member 1 ke project ka description.''',skills_required="JAVA")
+    member2 = ProjectData(2,"Member 2 ka project",category="Web",description='''Member 2 ke project ka description.''',skills_required="JAVA")                      
+    member3 = ProjectData(3,"Member 3 ka project",category="OS",description='''Member 3 ke project ka description.''',skills_required="JAVA")                      
     
     
     member1.add_orange_sub_heading(1,"Stages Of Development",description="Stages Of Dev ka desc")
@@ -134,14 +254,19 @@ if __name__ == "__main__":
     member1.add_blue_subheading(1,1,"Foreign Implementations",link_desc="Ye hai link foreign ka")
     member1.add_blue_subheading(2,1,"Adobe XD",link_desc="Ye hai link Adobe ka")
     
+    member1.add_additional_details("GITLINK","DOCLINK","SLACKLINK")
+    
     
     member2.add_orange_sub_heading(1,"Member 2 ka Stages Of Development",description="Stages Of Dev ka desc")
     member2.add_orange_sub_heading(2,"Member 2 ka Planning",description="Planning ka desc")
     
+    del(member1)
+    
     
     test = sqlite3.connect('Data.db')
-    test.execute('Select * FROM Orange').fetchall()
+    test.execute('Select * FROM Project').fetchall()
     test.commit()
     test.close()
+
 
 
