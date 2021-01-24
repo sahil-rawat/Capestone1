@@ -24,7 +24,7 @@ class ProjectData:
             Description for the Project. The default is None.
         Returns
         -------
-        None.
+        self.
 
         '''
         self.application_id = application_id
@@ -45,8 +45,8 @@ class ProjectData:
             print(e)
         finally:
             conn.commit()
-            conn.close()
-    
+            conn.close()   
+            return self
     
     def add_additional_details(self, git_link = None, doc_link = None, slack_link = None):
         '''
@@ -61,7 +61,7 @@ class ProjectData:
 
         Returns
         -------
-        None.
+        self.
 
         '''
         conn = sqlite3.connect('Data.db')
@@ -75,11 +75,13 @@ class ProjectData:
                          );''')
             params = [self.application_id, git_link, doc_link, slack_link]             
             conn.execute("REPLACE INTO Additional Values(?,?,?,?)",params)
+            
         except Exception as e:
             print(e)
         finally:
             conn.commit()
             conn.close()
+            return self
         
     
     def add_orange_sub_heading(self, orange_order, orange_title, description = None):
@@ -97,7 +99,7 @@ class ProjectData:
 
         Returns
         -------
-        None.
+        self.
 
         '''
         conn = sqlite3.connect('Data.db')
@@ -114,11 +116,13 @@ class ProjectData:
                 
             params = [self.application_id, orange_order, orange_title, description]             
             conn.execute("REPLACE INTO Orange Values(?,?,?,?)",params)
+            
         except Exception as e:
             print(e)
         finally:
             conn.commit()
             conn.close()
+            return self
     
             
     def add_red_sub_heading(self,parent_order, red_order, red_title, duration = None, skills_tags = None, description = None):
@@ -142,7 +146,7 @@ class ProjectData:
 
         Returns
         -------
-        None.
+        self.
 
         '''
         conn = sqlite3.connect('Data.db')
@@ -160,18 +164,22 @@ class ProjectData:
             
             params = [self.application_id, parent_order, red_order, red_title, duration, skills_tags, description]             
             conn.execute("REPLACE INTO Red Values(?,?,?,?,?,?,?)",params)
+            
         except Exception as e:
             print(e)
         finally:
             conn.commit()
             conn.close()
+            return self
     
-    def add_blue_subheading(self, parent_order, blue_order, blue_title, link_desc = None):
+    def add_blue_subheading(self,grand_parent_order, parent_order, blue_order, blue_title, link_desc = None):
         '''
         Level 3: Hierarchial Level(Blue)
 
         Parameters
         ----------
+        grand_parent_order : INT
+            Index of Orange(Level 1) Tile.
         parent_order : INT
             Index of Red(Level 2) Tile.
         blue_order : INT
@@ -183,28 +191,114 @@ class ProjectData:
 
         Returns
         -------
-        None.
+        self.
 
         '''
         conn = sqlite3.connect('Data.db')
         try: 
             conn.execute('''CREATE TABLE IF NOT EXISTS Blue
                          (Appn_ID INT NOT NULL,
+                         GPOParentOrder INT NOT NULL, 
                          RParentOrder INT NOT NULL,
                          TileOrder INT NOT NULL,
                          BlueTitle TEXT NOT NULL,
                          LinkDesc TEXT NULL,
-                         PRIMARY KEY (Appn_ID, RParentOrder, TileOrder)
+                         PRIMARY KEY (Appn_ID,GPOParentOrder, RParentOrder, TileOrder)
                          );''')
             
    
-            params = [self.application_id, parent_order, blue_order, blue_title, link_desc]             
-            conn.execute("REPLACE INTO Blue Values(?,?,?,?,?)",params)
+            params = [self.application_id,grand_parent_order, parent_order, blue_order, blue_title, link_desc]             
+            conn.execute("REPLACE INTO Blue Values(?,?,?,?,?,?)",params)
+            
         except Exception as e:
             print(e)
         finally:
             conn.commit()   
             conn.close()
+            return self
+
+    def delete_orange(self,TileOrder):
+        '''
+        Delete the Orange(Level 1) tile.
+
+        Parameters
+        ----------
+        TileOrder : INT
+            Order of tile.
+
+        Returns
+        -------
+        self.
+
+        '''
+        conn = sqlite3.connect('Data.db')
+        try:
+            conn.execute(f'''DELETE FROM Orange WHERE Appn_ID = {self.application_id} AND TileOrder = {TileOrder};''')
+            conn.execute(f'''DELETE FROM Red WHERE Appn_ID = {self.application_id} AND OParentOrder = {TileOrder};''')
+            conn.execute(f'''DELETE FROM Blue WHERE Appn_ID = {self.application_id} AND GPOParentOrder = {TileOrder};''')
+        except Exception as e:
+            print(e)
+        finally:
+            conn.commit()   
+            conn.close()
+            return self
+        
+    def delete_red(self, orangeOrder, redOrder):
+        '''
+        Delete the Red (Level 2) tile.
+
+        Parameters
+        ----------
+        orangeOrder : INT
+            Order of parent orange tile.
+        redOrder : INT
+            Order of Red Tile.
+
+        Returns
+        -------
+        self.
+
+        '''
+        conn = sqlite3.connect('Data.db')
+        try:
+            conn.execute(f'''DELETE FROM Red WHERE Appn_ID = {self.application_id} AND OParentOrder = {orangeOrder} AND TileOrder = {redOrder};''')
+            conn.execute(f'''DELETE FROM Blue WHERE Appn_ID = {self.application_id} AND GPOParentOrder = {orangeOrder} AND RParentOrder = {redOrder};''')
+        except Exception as e:
+            print(e)
+        finally:
+            conn.commit()
+            conn.close()
+            return self
+    
+    def delete_blue(self, orangeOrder, redOrder, blueOrder):
+        '''
+        Delete the Blue (Level 3) tile.
+
+        Parameters
+        ----------
+        orangeOrder : INT
+            Order of grandparent orange tile.
+        redOrder : INT
+            Order of parent red tile.
+        blueOrder : TYPE
+            Order of blue tile.
+
+        Returns
+        -------
+        self.
+
+        '''
+        conn = sqlite3.connect('Data.db')
+        try:
+            conn.execute(f'''DELETE FROM Blue WHERE Appn_ID = {self.application_id} AND GPOParentOrder = {orangeOrder} AND RParentOrder = {redOrder} AND TileOrder = {blueOrder};''')
+        except Exception as e:
+            print(e)
+        finally:
+            conn.commit()
+            conn.close()
+        return self
+
+    
     def __del__(self):
         conn = sqlite3.connect('Data.db')
         try:
@@ -233,6 +327,7 @@ class ProjectData:
 #%% Testing Code
 
 if __name__ == "__main__":
+    
     member1 = ProjectData(1,"Member 1 ka project",category="Android",description='''Member 1 ke project ka description.''',skills_required="JAVA")
     member2 = ProjectData(2,"Member 2 ka project",category="Web",description='''Member 2 ke project ka description.''',skills_required="JAVA")                      
     member3 = ProjectData(3,"Member 3 ka project",category="OS",description='''Member 3 ke project ka description.''',skills_required="JAVA")                      
@@ -242,7 +337,7 @@ if __name__ == "__main__":
     member1.add_orange_sub_heading(2,"Planning",description="Planning ka desc")
     member1.add_orange_sub_heading(3,"Function & Feature",description="Function & Feature ka desc")
     
-    member1.add_orange_sub_heading(2,"Planning Edited", description="Planning EDITED")
+    member1.add_orange_sub_heading(2,"Planning Edited")
     
     
     member1.add_red_sub_heading(2,1,"Brainstorming",duration=2,skills_tags="GIT",description="Brainstorming ka desc")
@@ -251,8 +346,9 @@ if __name__ == "__main__":
     
     member1.add_red_sub_heading(2,1,"Brainstorming EDITED",duration=6,skills_tags="Java",description="Brain ka EDITED desc")
     
-    member1.add_blue_subheading(1,1,"Foreign Implementations",link_desc="Ye hai link foreign ka")
-    member1.add_blue_subheading(2,1,"Adobe XD",link_desc="Ye hai link Adobe ka")
+    member1.add_blue_subheading(2,1,1,"Foreign Implementations",link_desc="Ye hai link foreign ka")
+    member1.add_blue_subheading(2,2,1,"Adobe XD",link_desc="Ye hai link Adobe ka")
+    
     
     member1.add_additional_details("GITLINK","DOCLINK","SLACKLINK")
     
