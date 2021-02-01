@@ -25,7 +25,6 @@ class ProjectData:
         Returns
         -------
         None.
-
         '''
         self.application_id = application_id
         conn = sqlite3.connect('Data.db')        
@@ -58,11 +57,9 @@ class ProjectData:
             Docs Link of Project. The default is None.
         slack_link : String, optional
             Slack Link of Project. The default is None.
-
         Returns
         -------
         None.
-
         '''
         conn = sqlite3.connect('Data.db')
         try:
@@ -87,7 +84,6 @@ class ProjectData:
     def add_orange_sub_heading(self, orange_order, orange_title, description = None):
         '''
         Level 1: Hierarchial Level(Orange)
-
         Parameters
         ----------
         orange_order : INT
@@ -96,11 +92,9 @@ class ProjectData:
             Title of tile.
         description : String, optional
             Description of tile. The default is None.
-
         Returns
         -------
         None.
-
         '''
         conn = sqlite3.connect('Data.db')
         try:
@@ -128,7 +122,6 @@ class ProjectData:
     def add_red_sub_heading(self,parent_order, red_order, red_title, duration = None, skills_tags = None, description = None):
         '''
         Level 2: Hierarchial Level(Red)
-
         Parameters
         ----------
         parent_order : INT
@@ -143,11 +136,9 @@ class ProjectData:
             Skills required for particular task. The default is None.
         description : String, optional
             Description of particular tile. The default is None.
-
         Returns
         -------
         None.
-
         '''
         conn = sqlite3.connect('Data.db')
         try:                
@@ -175,7 +166,6 @@ class ProjectData:
     def add_blue_subheading(self,grand_parent_order, parent_order, blue_order, blue_title, link_desc = None):
         '''
         Level 3: Hierarchial Level(Blue)
-
         Parameters
         ----------
         grand_parent_order : INT
@@ -188,11 +178,9 @@ class ProjectData:
             Title of tile.
         link_desc : String, optional
             Description or refeerence links. The default is None.
-
         Returns
         -------
         None.
-
         '''
         conn = sqlite3.connect('Data.db')
         try: 
@@ -220,16 +208,13 @@ class ProjectData:
     def delete_orange(self,TileOrder):
         '''
         Delete the Orange(Level 1) tile.
-
         Parameters
         ----------
         TileOrder : INT
             Order of tile.
-
         Returns
         -------
         None.
-
         '''
         conn = sqlite3.connect('Data.db')
         try:
@@ -246,18 +231,15 @@ class ProjectData:
     def delete_red(self, orangeOrder, redOrder):
         '''
         Delete the Red (Level 2) tile.
-
         Parameters
         ----------
         orangeOrder : INT
             Order of parent orange tile.
         redOrder : INT
             Order of Red Tile.
-
         Returns
         -------
         None.
-
         '''
         conn = sqlite3.connect('Data.db')
         try:
@@ -273,7 +255,6 @@ class ProjectData:
     def delete_blue(self, orangeOrder, redOrder, blueOrder):
         '''
         Delete the Blue (Level 3) tile.
-
         Parameters
         ----------
         orangeOrder : INT
@@ -282,11 +263,9 @@ class ProjectData:
             Order of parent red tile.
         blueOrder : TYPE
             Order of blue tile.
-
         Returns
         -------
         None.
-
         '''
         conn = sqlite3.connect('Data.db')
         try:
@@ -298,7 +277,7 @@ class ProjectData:
             conn.close()
 
     
-    def __del__(self):
+    def delete(self):
         conn = sqlite3.connect('Data.db')
         try:
             conn.execute(f'''DELETE FROM Project WHERE Appn_ID = {self.application_id};''')
@@ -319,7 +298,7 @@ class ProjectData:
             pass
     
         
-    
+ 
 
 
 
@@ -355,11 +334,11 @@ if __name__ == "__main__":
     member2.add_orange_sub_heading(1,"Member 2 ka Stages Of Development",description="Stages Of Dev ka desc")
     member2.add_orange_sub_heading(2,"Member 2 ka Planning",description="Planning ka desc")
     
-    del(member1)
+    #del(member1)
     
     
     test = sqlite3.connect('Data.db')
-    test.execute('Select * FROM Project').fetchall()
+    print(test.execute('Select * FROM Project').fetchall())
     test.commit()
     test.close()
 
