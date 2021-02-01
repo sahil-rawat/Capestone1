@@ -1,0 +1,27 @@
+<h1>All available courts for {{ orange.0 }}</h1>
+<ul>
+{% for i in orange %}
+    <li>
+        {{ i }}
+        <ul>
+            {% for j in red %}
+                {% if j.1 == i.1 %}
+                    <li>
+                        {{j}}
+                        <ul>
+                            {% for k in blue %}
+                                {% if k.1 == i.1 and k.2 == j.2%}
+                                    <li>
+                                        {{k}}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+
+                    </li>
+                {% endif %}
+            {% endfor %}
+    </ul>
+    </li>
+{% endfor %}
+</ul>

@@ -28,7 +28,7 @@ class ProjectData:
         '''
         self.application_id = application_id
         conn = sqlite3.connect('Data.db')        
-        try:  
+        try:
             conn.execute('''CREATE TABLE IF NOT EXISTS Project 
                          (Appn_ID INT NOT NULL,
                          ProjectTitle TEXT NOT NULL,
