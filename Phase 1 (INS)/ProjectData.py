@@ -3,7 +3,7 @@ class ProjectData:
     This class is used to store the project data of individual applications. In three level of hierarchies,
     Orange, Red and Blue.
     """  
-    import sqlite3
+    import sqlite3 
     global sqlite3    
     
     def __init__(self, application_id, project_title, category, skills_required,description):
@@ -24,7 +24,7 @@ class ProjectData:
             Description for the Project. The default is None.
         Returns
         -------
-        self.
+        None.
 
         '''
         self.application_id = application_id
@@ -46,7 +46,7 @@ class ProjectData:
         finally:
             conn.commit()
             conn.close()   
-            return self
+            
     
     def add_additional_details(self, git_link = None, doc_link = None, slack_link = None):
         '''
@@ -61,7 +61,7 @@ class ProjectData:
 
         Returns
         -------
-        self.
+        None.
 
         '''
         conn = sqlite3.connect('Data.db')
@@ -81,7 +81,7 @@ class ProjectData:
         finally:
             conn.commit()
             conn.close()
-            return self
+            
         
     
     def add_orange_sub_heading(self, orange_order, orange_title, description = None):
@@ -99,7 +99,7 @@ class ProjectData:
 
         Returns
         -------
-        self.
+        None.
 
         '''
         conn = sqlite3.connect('Data.db')
@@ -122,7 +122,7 @@ class ProjectData:
         finally:
             conn.commit()
             conn.close()
-            return self
+            
     
             
     def add_red_sub_heading(self,parent_order, red_order, red_title, duration = None, skills_tags = None, description = None):
@@ -146,7 +146,7 @@ class ProjectData:
 
         Returns
         -------
-        self.
+        None.
 
         '''
         conn = sqlite3.connect('Data.db')
@@ -170,7 +170,7 @@ class ProjectData:
         finally:
             conn.commit()
             conn.close()
-            return self
+            
     
     def add_blue_subheading(self,grand_parent_order, parent_order, blue_order, blue_title, link_desc = None):
         '''
@@ -191,7 +191,7 @@ class ProjectData:
 
         Returns
         -------
-        self.
+        None.
 
         '''
         conn = sqlite3.connect('Data.db')
@@ -215,7 +215,7 @@ class ProjectData:
         finally:
             conn.commit()   
             conn.close()
-            return self
+            
 
     def delete_orange(self,TileOrder):
         '''
@@ -228,7 +228,7 @@ class ProjectData:
 
         Returns
         -------
-        self.
+        None.
 
         '''
         conn = sqlite3.connect('Data.db')
@@ -241,7 +241,7 @@ class ProjectData:
         finally:
             conn.commit()   
             conn.close()
-            return self
+            
         
     def delete_red(self, orangeOrder, redOrder):
         '''
@@ -256,7 +256,7 @@ class ProjectData:
 
         Returns
         -------
-        self.
+        None.
 
         '''
         conn = sqlite3.connect('Data.db')
@@ -268,7 +268,7 @@ class ProjectData:
         finally:
             conn.commit()
             conn.close()
-            return self
+            
     
     def delete_blue(self, orangeOrder, redOrder, blueOrder):
         '''
@@ -285,7 +285,7 @@ class ProjectData:
 
         Returns
         -------
-        self.
+        None.
 
         '''
         conn = sqlite3.connect('Data.db')
@@ -296,7 +296,6 @@ class ProjectData:
         finally:
             conn.commit()
             conn.close()
-        return self
 
     
     def __del__(self):
@@ -363,6 +362,4 @@ if __name__ == "__main__":
     test.execute('Select * FROM Project').fetchall()
     test.commit()
     test.close()
-
-
 
