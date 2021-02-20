@@ -1,0 +1,58 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>WMS</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<h1>Project Name : <%= JSON.parse(data)['project_name'] %></h1>
+	<h2>Duration : <%= JSON.parse(data)['duration'] %></h2>
+	<p>Team:<% for( let index = 0; index < JSON.parse(data)['team'].length; index++ ) { %>
+		 <%= JSON.parse(data)['team'][index] %> 
+	<% } %>
+	</p>
+	<p>Mentor : 
+		<% for( let index = 0; index < JSON.parse(data)['mentor'].length; index++ ) { %>
+			<%= JSON.parse(data)['mentor'][index] %> 
+		
+		<% } %>
+	</p>
+
+	<a href=<%=JSON.parse(data)['git']%> >Go To Git </a>
+	<a href=<%=JSON.parse(data)['doc']%> >Go To Git </a>
+	<h1>Project Details</h1>
+	<ul>
+		<li>
+			<%= JSON.parse(data)['tasks'].name %>
+			<ul>
+					<%	for (var key in JSON.parse(data)['tasks']['subtasks']) { %>
+						<li> 
+								<%= JSON.parse(data)['tasks']['subtasks'][key]['name'] %>
+							<ul>
+								<% for( var i in JSON.parse(data)['tasks']['subtasks'][key]['subtask'] ) { %>
+									<li> 
+										<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['name'] %> 
+										<ul>
+											<% for( var j in JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['subtask'] ) { %>
+												<li>
+													<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['subtask'][j]['name'] %>
+												</li>
+											<% } %> 
+										</ul>										
+									</li>
+								<% } %>
+							</ul>
+						</li>
+					<%}%> 
+			</ul>
+		</li>
+	</ul>
+</body>
+
+</html>
+
