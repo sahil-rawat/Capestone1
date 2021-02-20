@@ -7,52 +7,168 @@
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<title>WMS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		
+
 </head>
 
 <body>
-	<h1>Project Name : <%= JSON.parse(data)['project_name'] %></h1>
-	<h2>Duration : <%= JSON.parse(data)['duration'] %></h2>
-	<p>Team:<% for( let index = 0; index < JSON.parse(data)['team'].length; index++ ) { %>
-		 <%= JSON.parse(data)['team'][index] %> 
-	<% } %>
-	</p>
-	<p>Mentor : 
-		<% for( let index = 0; index < JSON.parse(data)['mentor'].length; index++ ) { %>
-			<%= JSON.parse(data)['mentor'][index] %> 
-		
-		<% } %>
-	</p>
+	<div class="row no-gutters">
+		<div class="col-xl-9">
+			<div class="jumbotron jumbotron-fluid">
+				<div class="container">
+					<h2  class="display-5">
+						Project Name : <%= JSON.parse(data)['project_name'] %>
+					</h2>
+					<hr class="my-2">
+					<p class="card-text">
+						Duration : <%= JSON.parse(data)['duration'] %> <br>
+						Team:
+						<% for( let index = 0; index < JSON.parse(data)['team'].length; index++ ) { %> 
+							<%= JSON.parse(data)['team'][index] %> 
+						<% } %> <br>
+						Mentor : 
+							<% for( let index = 0; index < JSON.parse(data)['mentor'].length; index++ ) { %>
+								<%= JSON.parse(data)['mentor'][index] %> 
+						<% } %>
+					</p>	
+				</div>
+			</div>
+		</div>
 
-	<a href=<%=JSON.parse(data)['git']%> >Go To Git </a>
-	<a href=<%=JSON.parse(data)['doc']%> >Go To Git </a>
-	<h1>Project Details</h1>
-	<ul>
-		<li>
-			<%= JSON.parse(data)['tasks'].name %>
-			<ul>
-					<%	for (var key in JSON.parse(data)['tasks']['subtasks']) { %>
-						<li> 
-								<%= JSON.parse(data)['tasks']['subtasks'][key]['name'] %>
-							<ul>
-								<% for( var i in JSON.parse(data)['tasks']['subtasks'][key]['subtask'] ) { %>
+		<div class="col-xl-3">
+			<div class=" text-left">
+				<div class="card-body">
+					 
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="no-gutters">
+		<div class="col-xl-12">
+			<div class="card text-left">
+				<div class="card-body">
+					<a class="btn btn-primary" href=<%=JSON.parse(data)['git']%> >
+						Go To Git 
+					</a>
+					<a class="btn btn-secondary" href=<%=JSON.parse(data)['doc']%> >
+						Go To Doc 
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<div class="row no-gutters">
+	<div class="col-xl-5">
+		<div class="text-left">
+			<div class="card-body">
+				<h3>Project Details</h3><br>
+				
+				<ul style="list-style-type: none;"> 
+					<li>
+						
+						<i class="fa fa-plus-circle" aria-hidden="true"></i>
+
+						<span class="list-group-item list-group-item-primary" style="display: inline-block;margin: 5px;">
+							<%= JSON.parse(data)['tasks'].name %>
+						</span>
+					
+						<ul style="list-style-type: none;display: none;">
+								<%	for (var key in JSON.parse(data)['tasks']['subtasks']) { %>
 									<li> 
-										<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['name'] %> 
-										<ul>
-											<% for( var j in JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['subtask'] ) { %>
-												<li>
-													<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['subtask'][j]['name'] %>
+										<i  class="fa fa-plus-circle" aria-hidden="true"></i>
+										<span class="list-group-item list-group-item-danger " id="<%= JSON.parse(data)['tasks']['subtasks'][key]['name']%>" style="display: inline-block;margin: 5px;">
+											<%= JSON.parse(data)['tasks']['subtasks'][key]['name'] %>
+										</span>
+										<ul style="list-style-type: none;display: none;">
+											<% for( var i in JSON.parse(data)['tasks']['subtasks'][key]['subtask'] ) { %>
+												<li> 
+													<i class="fa fa-plus-circle" aria-hidden="true"></i>
+													<span class="list-group-item list-group-item-success"id="<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['name'] %> " style="display: inline-block;margin: 5px;">
+														<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['name'] %> 
+													</span>
+													<ul style="list-style-type: none;display: none;">
+														<% for( var j in JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['subtask'] ) { %>
+															<li>
+																<span class="list-group-item list-group-item-warning" id="<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['subtask'][j]['name'] %>" style="display: inline-block;margin: 5px;">
+																<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['subtask'][j]['name'] %>
+																</span>
+															</li>
+														<% } %> 
+													</ul>										
 												</li>
-											<% } %> 
-										</ul>										
+											<% } %>
+										</ul>
 									</li>
-								<% } %>
-							</ul>
-						</li>
-					<%}%> 
-			</ul>
-		</li>
-	</ul>
+								<%}%> 
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-7">
+		<div class="jumbotron <%= JSON.parse(data)['tasks'].name %>
+			" style="display: block;background-color: white;">
+			<h1 class="display-5">
+				<%= JSON.parse(data)['tasks'].name %>
+			</h1>
+			<p>Category: <%= JSON.parse(data)['tasks'].category %><br>
+				Skills: <%= JSON.parse(data)['tasks'].skills %></p>
+				<hr class="my-2">
+			<p>
+				<%= JSON.parse(data)['tasks'].description %>
+			</p>
+		</div>
+		<%	for (var key in JSON.parse(data)['tasks']['subtasks']) { %>
+			<div class="jumbotron <%= JSON.parse(data)['tasks']['subtasks'][key].name %>
+				" style="display: none;">
+				<h1 class="display-5">
+					<%= JSON.parse(data)['tasks']['subtasks'][key].name %>
+				</h1>
+					<hr class="my-2">
+				<p>
+					<%= JSON.parse(data)['tasks']['subtasks'][key].description %>
+				</p>
+			</div>
+			<% for( var i in JSON.parse(data)['tasks']['subtasks'][key]['subtask'] ) { %>
+				<div class="jumbotron <%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i].name %>
+					" style="display: none;">
+					<h1 class="display-5">
+						<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i].name %>
+					</h1>
+					<p>Duration: <%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i].duration %><br>
+						Skills: <%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i].skills %></p>
+						<hr class="my-2">
+					<p>
+						<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i].description %>
+					</p>
+				</div>
+				<% for( var j in JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['subtask'] ) { %>
+					<a href="<%= JSON.parse(data)['tasks']['subtasks'][key]['subtask'][i]['subtask'][j]['link']%>" style="display: none;">test </a>
+
+					<%}%>
+				<%}%>
+		<% } %> 
+
+	</div>
+</div>
+	
+
+
+	
+	
 </body>
+<script src="/js/projDetails.js"></script>
+
+
 
 </html>
-
