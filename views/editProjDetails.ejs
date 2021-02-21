@@ -1,0 +1,126 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>WMS</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.1.1/jquery.serializejson.js" integrity="sha512-ThLeGjtn0wieEgd1cuXg+kbJ1NDS3uMK+eurAVS/njXId7s7+rOi+Y+RZpPPHn2CFimkMKrd18L+5Lx7G6BIBQ==" crossorigin="anonymous"></script>
+		
+		
+
+</head>
+
+<body>
+	<% let db=JSON.parse(data) %>
+
+	<div class="row no-gutters">
+		<div class="col-xl-9">
+			<div class="jumbotron jumbotron-fluid">
+				<div class="container">
+					<h2  class="display-5">
+						Project Name : <%=db['project_name']%>
+					</h2>
+					<hr class="my-2">
+					<p class="card-text">
+						Duration : <%=db['duration']%> <br>
+						Team:
+						<% for( let i = 0; i < db['team'].length; i++ ) { %> 
+							<%= db['team'][i] %> 
+						<% } %> <br>
+						Mentor : 
+							<% for( let i = 0; i < db['mentor'].length; i++ ) { %>
+								<%= db['mentor'][i] %> 
+						<% } %>
+					</p>	
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-3">
+			<div class=" text-left">
+				<div class="card-body">
+					 
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="no-gutters">
+		<div class="col-xl-12">
+			<div class="card text-left">
+				<div class="card-body">
+					<a class="btn btn-primary" href=<%=db['git']%> >
+						Go To Git 
+					</a>
+					<a class="btn btn-secondary" href=<%=db['doc']%> >
+						Go To Doc 
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<form onsubmit="handlesubmit()">
+	<div class="jumbotron row no-gutters">
+		<div class="col-xl-5">
+			<div class="text-left">
+				<div class="card-body">
+					<h3>Project Details</h3>
+					<br>
+					<ul style="list-style-type: none;">
+						<li >
+							<input onchange="render()" name=task[name] id="task[name]" onfocus="return showdesc()" id=0 class="list-group-item list-group-item-primary" style="display:inline-block; margin:5px;" placeholder="TaskName">
+							<i onclick="return addchild()" class="fa fa-plus-circle" aria-hidden="true"></i>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-7">
+			<div class="text-left">
+				<div class="card-body" id="description">
+					<div class="form-group" style="display: block;">
+						<h3 id=task[heading]></h3>	
+						<label >Task Description: </label>
+						<textarea class="form-control" name="task[description]" id="task[description]" rows="15"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="d-flex justify-content-center">
+	<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+</form>
+
+	
+	
+</body>
+<script src="/js/editProjDetails.js"></script>
+
+<script> function handlesubmit(){
+	event.preventDefault()
+	data=$('form').serializeJSON()
+	console.log(JSON.stringify(data));
+	var http = new XMLHttpRequest();
+  http.open("POST", "/project/<%= projid %>/submit");
+	http.setRequestHeader("Content-Type","application/json")
+	http.send(JSON.stringify(data));
+	console.log(http.response); 
+	//window.location=('/project/<%= projid %>')
+} </script>
+
+
+
+</html>
