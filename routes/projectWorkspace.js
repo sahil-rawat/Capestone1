@@ -2,31 +2,51 @@ const {getDetails,setDetails} =require('../controllers/projectDetails')
 const express = require('express');
 const router=express.Router()
 
-router.get('/:id1',function(req,res){
+router.get('/:id',function(req,res){
 	async function render(){
-		projDetail = await getDetails(req.params.id1)
-		await res.render('projDetails',{ 
-			data:JSON.stringify(projDetail),
-			projid:req.params.id1
-		})
+		projDetail = await getDetails(req.params.id)
+		if(projDetail){
+			await res.render('projDetails',{ 
+				data:JSON.stringify(projDetail),
+				projid:req.params.id
+			})
+		}
+		else{
+			res.render('404')
+		}
 	}
 	render()
 })
 
-router.get('/:id1/edit',function(req,res){
+router.get('/:id/edit',function(req,res){
 	async function render(){
-		projDetail = await getDetails(req.params.id1)
-		await res.render('editProjDetails',{ 
-			data:JSON.stringify(projDetail),
-			projid:req.params.id1
-		})
+		projDetail = await getDetails(req.params.id)
+		if(projDetail){
+			if(!projDetail.submitted){
+				await res.render('editProjDetails',{ 
+					data:JSON.stringify(projDetail),
+					projid:req.params.id
+				})
+			}else{
+				await res.render('projDetails',{ 
+					data:JSON.stringify(projDetail),
+					projid:req.params.id
+				})
+			}
+		}else{
+			res.render('404')
+		}
+		
 	}
 	render()
 })
 
-router.post('/:id1/submit',function(req,res){
+router.post('/:id/submit',function(req,res){
 	async function render(){
-		projDetail = await setDetails(req.body,req.params.id1)
+		data=req.body
+		data['submitted']=false
+		projDetail = await setDetails(data,req.params.id)
+		res.send(req.params.id)
 	}
 	render()
 })

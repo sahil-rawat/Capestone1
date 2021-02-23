@@ -10,10 +10,12 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/css/editProjDetails.css">
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.1.1/jquery.serializejson.js" integrity="sha512-ThLeGjtn0wieEgd1cuXg+kbJ1NDS3uMK+eurAVS/njXId7s7+rOi+Y+RZpPPHn2CFimkMKrd18L+5Lx7G6BIBQ==" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.1.1/jquery.serializejson.js" integrity="sha512-ThLeGjtn0wieEgd1cuXg+kbJ1NDS3uMK+eurAVS/njXId7s7+rOi+Y+RZpPPHn2CFimkMKrd18L+5Lx7G6BIBQ==" crossorigin="anonymous"></script>
+
 		
 		
 
@@ -77,7 +79,7 @@
 				<div class="card-body">
 					<h3>Project Details</h3>
 					<br>
-					<ul style="list-style-type: none;">
+					<ul id=1 style="list-style-type: none;">
 						<li >
 							<input onchange="render()" name=task[name] id="task[name]" onfocus="return showdesc()" id=0 class="list-group-item list-group-item-primary" style="display:inline-block; margin:5px;" placeholder="TaskName">
 							<i onclick="return addchild()" class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -89,8 +91,16 @@
 		<div class="col-xl-7">
 			<div class="text-left">
 				<div class="card-body" id="description">
-					<div class="form-group" style="display: block;">
-						<h3 id=task[heading]></h3>	
+					<div class="form-group">
+						<h3 id=task[heading]></h3>
+						<input name="task[skills]" id="task[skills]" value=""/>
+						<br>
+						<br>
+						<div id="tags" >
+							<input type="text" placeholder="Add a skill" />
+							<input name="task[skills]" id="task[skills]" type="hidden" value=""/>
+						</div>
+						<br><br><br>
 						<label >Task Description: </label>
 						<textarea class="form-control" name="task[description]" id="task[description]" rows="15"></textarea>
 					</div>
@@ -114,12 +124,44 @@
 	data=$('form').serializeJSON()
 	console.log(JSON.stringify(data));
 	var http = new XMLHttpRequest();
-  http.open("POST", "/project/<%= projid %>/submit");
+  	http.open("POST", "/project/<%= projid %>/submit");
 	http.setRequestHeader("Content-Type","application/json")
 	http.send(JSON.stringify(data));
-	console.log(http.response); 
-	//window.location=('/project/<%= projid %>')
-} </script>
+	console.log(http.responseText); 
+	http.onreadystatechange = function () {
+	if(http.readyState === XMLHttpRequest.DONE) {
+		var status = http.status;
+		if (status === 0 || (status >= 200 && status < 400)) {
+			console.log(http.responseText)
+			window.location=('/project/'+http.responseText)
+		} else {
+			alert("Something Went Wrong!! Please Try again Later!")
+		}
+	}
+}
+} 
+</script>
+<script>
+	jQuery(function($) {
+
+	$('#tags input').on('focusout', function() {
+		var txt = this.value.replace(/[^a-zA-Z0-9\+\-\.\#]/g, ''); 
+		if (txt) {
+			$(this).before('<span class="tag">' + txt + '</span>');
+			console.log(document.getElementById('task[skills]'));
+			document.getElementById('task[skills]').value+=txt+' '
+		}
+		this.value = "";
+	}).on('keyup', function(e) {
+		if (/(188|13)/.test(e.which)) $(this).trigger('focusout');
+	});
+
+	$('#tags').on('click', '.tag', function() {
+		$(this).remove();
+	});
+
+	});
+</script>
 
 
 

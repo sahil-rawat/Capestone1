@@ -1,6 +1,7 @@
 var express = require('express');
 const bodyParser=require('body-parser')
-const workspaceRoute=require('./routes/projectWorkspace')
+const workspaceRoute=require('./routes/projectWorkspace');
+const { render } = require('ejs');
 
 
 
@@ -14,5 +15,8 @@ app.use(express.static(__dirname +"/public/"));
 app.use(bodyParser.json({type:"application/*"}))
 app.use('/project',workspaceRoute)
 
+app.get('*',function(req,res){
+    res.render('404')
+})
 
 app.listen(process.env.PORT || 8080)
