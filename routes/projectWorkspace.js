@@ -1,4 +1,4 @@
-const {getDetails,setDetails} =require('../controllers/projectDetails')
+const {getDetails,setDetails} =require('../controllers/db')
 const express = require('express');
 const router=express.Router()
 
