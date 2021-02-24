@@ -1,14 +1,22 @@
 var express = require('express');
-const path = require('path');
+const bodyParser=require('body-parser')
+const workspaceRoute=require('./routes/projectWorkspace');
+const { render } = require('ejs');
+
+
 
 var app= express()
 
-app.use(express.static('res'));
+app.set("view engine", "ejs"); 
+app.set("views", __dirname + "/views/");
 
+app.use(express.static(__dirname +"/public/"));
+//app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json({type:"application/*"}))
+app.use('/project',workspaceRoute)
 
-app.get('/home',function(req,res){
-	res.sendFile( __dirname + "/res/" + "index.html" )
+app.get('*',function(req,res){
+    res.render('404')
 })
-
 
 app.listen(process.env.PORT || 8080)
