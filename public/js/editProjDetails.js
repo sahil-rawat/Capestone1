@@ -36,6 +36,8 @@ function addchild (){
 	var descdiv=document.getElementById('description')
 
 	var div=document.createElement('div')
+	var description=document.createElement('div')
+
 	var h3=document.createElement('h3')
 
 	var label=document.createElement('label')
@@ -75,8 +77,11 @@ function addchild (){
 		skill.placeholder='skill'
 		div.appendChild(duration,skill)
 	}
-	div.appendChild(label)
-	div.appendChild(textarea)
+
+	description.appendChild(label)
+	description.appendChild(textarea)
+
+	div.appendChild(description)
 
 	descdiv.appendChild(div)
 }

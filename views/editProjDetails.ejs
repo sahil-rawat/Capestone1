@@ -93,7 +93,10 @@
 				<div class="card-body" id="description">
 					<div class="form-group">
 						<h3 id=task[heading]></h3>
-						<input name="task[skills]" id="task[skills]" value=""/>
+						<div id="inp" >
+							<input name="task[category]" id="task[category]" type="text" placeholder="Category"/>
+						</div>
+						
 						<br>
 						<br>
 						<div id="tags" >
@@ -102,7 +105,9 @@
 						</div>
 						<br><br><br>
 						<label >Task Description: </label>
+						<div id="inp" style="display: block;">
 						<textarea class="form-control" name="task[description]" id="task[description]" rows="15"></textarea>
+					</div>
 					</div>
 				</div>
 			</div>
@@ -143,26 +148,21 @@
 </script>
 <script>
 	jQuery(function($) {
-
-	$('#tags input').on('focusout', function() {
-		var txt = this.value.replace(/[^a-zA-Z0-9\+\-\.\#]/g, ''); 
-		if (txt) {
-			$(this).before('<span class="tag">' + txt + '</span>');
-			console.log(document.getElementById('task[skills]'));
-			document.getElementById('task[skills]').value+=txt+' '
-		}
-		this.value = "";
-	}).on('keyup', function(e) {
-		if (/(188|13)/.test(e.which)) $(this).trigger('focusout');
+		$('#tags input').on('focusout', function() {
+			var txt = this.value.replace(/[^a-zA-Z0-9\+\-\.\#]/g, ''); 
+			if (txt) {
+				$(this).before('<span class="tag">' + txt + '</span>');
+				document.getElementById('task[skills]').value+=txt+' '
+			}
+			this.value = "";
+		}).on('keyup', function(e) {
+			if (/(188|13)/.test(e.which)) $(this).trigger('focusout');
+		});
+		$('#tags').on('click', '.tag', function() {
+			var removeIndex=document.getElementById('task[skills]').value.length-(this.innerHTML.length+1)
+			document.getElementById('task[skills]').value=document.getElementById('task[skills]').value.slice(0,removeIndex)
+			$(this).remove();
 	});
-
-	$('#tags').on('click', '.tag', function() {
-		$(this).remove();
-	});
-
 	});
 </script>
-
-
-
 </html>
