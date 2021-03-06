@@ -18,3 +18,19 @@ exports.setDetails= async (data,id) =>{
   const Project = await db.collection('Projects').doc(id)
   const res = await Project.set(data, { merge: true })
 }
+
+
+exports.createProject= async (data,req,res) => {
+  db.collection("Projects").add(data)
+  .then(async (id)=>{
+    console.log(id);
+    const Project=await db.collection('Projects').doc(id.id)
+    const res = await Project.set({projid:id.id}, { merge: true })
+    await res.send(id.id)
+    
+  })
+  .catch((error) => {
+    console.error("Error adding document: ", error);
+  });
+}
+
