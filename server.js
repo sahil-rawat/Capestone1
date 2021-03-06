@@ -15,9 +15,14 @@ app.use(express.static(__dirname +"/public/"));
 app.use(bodyParser.json({type:"application/*"}))
 app.use('/project',workspaceRoute)
 
-app.get('*',function(req,res){
-    res.render('404')
-})
+
+
+app.get('/createproject',function(req,res){
+    res.render('createProject')
+ })
+ app.get('*',function(req,res){
+     res.render('404')
+ })
 
 
 app.listen(process.env.PORT || 8080)

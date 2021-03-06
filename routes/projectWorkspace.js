@@ -1,4 +1,4 @@
-const {getDetails,setDetails} =require('../controllers/db')
+const {getDetails,setDetails,createProject} =require('../controllers/db')
 const express = require('express');
 const router=express.Router()
 
@@ -47,6 +47,16 @@ router.post('/:id/submit',function(req,res){
 		data['submitted']=false
 		projDetail = await setDetails(data,req.params.id)
 		res.send(req.params.id)
+	}
+	render()
+})
+
+router.post('/createproject',function(req,res){
+	async function render(){
+		data=req.body
+		console.log(data);
+		projData = await createProject(data,req,res)
+
 	}
 	render()
 })
