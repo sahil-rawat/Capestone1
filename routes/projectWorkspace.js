@@ -12,12 +12,21 @@ router.get('/createproject',function(req,res){
 
  router.get('/dashboard',function(req,res){
 
-	async function test(){
-		projectDetails();
+	async function render(){
+		uid=req.user.uid
+		const dashboardDetail = await projectDetails(uid);
+		if(dashboardDetail){
+			res.render('dashboard',{ 
+				data:JSON.stringify(dashboardDetail),
+				id:req.user.id
+			})
+		}
+		else{
+			res.render('404')
+		}
 	}
-	test();
+	render();
 
-	 res.render('dashboard',{id:req.user.uid})
  })
 
 
@@ -27,6 +36,7 @@ router.post('/createproject/submit',function(req,res){
 		data=req.body.data
 		team=req.body.team
 		projId = await createProject(data,req.user,team,res)
+
 	}
 	render()
 })
@@ -67,7 +77,7 @@ router.get('/:id',function(req,res){
 	async function render(){
 		projDetail = await getDetails(req.params.id)
 		if(projDetail){
-			await res.render('projDetails',{ 
+			res.render('projDetails',{ 
 				data:JSON.stringify(projDetail),
 				projid:req.params.id
 			})
