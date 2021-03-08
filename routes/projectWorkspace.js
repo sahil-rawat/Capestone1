@@ -1,7 +1,7 @@
 const express = require('express');
 const router=express.Router()
 const isAuthenticated=require('../middleware/isAuthenticated')
-const {getDetails,setDetails,createProject} =require('../controllers/functions')
+const {getDetails,setDetails,createProject, projectDetails} =require('../controllers/functions')
 
 router.use(isAuthenticated)
 router.get('/createproject',function(req,res){
@@ -10,6 +10,10 @@ router.get('/createproject',function(req,res){
 
  router.get('/dashboard',function(req,res){
 
+	async function test(){
+		projectDetails();
+	}
+	test();
 
 	 res.render('dashboard',{id:req.user.uid})
  })
