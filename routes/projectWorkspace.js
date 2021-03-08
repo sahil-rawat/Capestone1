@@ -3,14 +3,14 @@ const router=express.Router()
 const isAuthenticated=require('../middleware/isAuthenticated')
 const {getDetails,setDetails,createProject} =require('../controllers/functions')
 
+
+
 router.use(isAuthenticated)
 router.get('/createproject',function(req,res){
     res.render('createProject')
  })
 
  router.get('/dashboard',function(req,res){
-
-
 	 res.render('dashboard',{id:req.user.uid})
  })
 
@@ -18,9 +18,9 @@ router.get('/createproject',function(req,res){
 
 router.post('/createproject/submit',function(req,res){
 	async function render(){
-		data=req.body
-		projId = await createProject(data,req.user.uid)
-		res.send('/project/'+projId+'/edit')
+		data=req.body.data
+		team=req.body.team
+		projId = await createProject(data,req.user,team,res)
 	}
 	render()
 })

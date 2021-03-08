@@ -30,15 +30,21 @@
 					</h2>
 					<hr class="my-2">
 					<p class="card-text">
-						Duration : <%=db['duration']%> <br>
-						Team:
-						<% for( let i = 0; i < db['team'].length; i++ ) { %> 
-							<%= db['team'][i] %> 
-						<% } %> <br>
-						Mentor : 
-							<% for( let i = 0; i < db['mentor'].length; i++ ) { %>
-								<%= db['mentor'][i] %> 
+						<% if (db['duration']) { %>
+							Duration : <%=db['duration']%> <br>
 						<% } %>
+						
+						Team:
+					
+						<% Object.keys(db['team']).forEach(element => { %>
+								<img onmouseover="showname()" onmouseout="hidename()" name="<%= element %>" src="https://ui-avatars.com/api/?background=random&rounded=true&size=32&name=<%= element.split(" ").join("+") %> %>">  
+								<span id="<%= element %>" class="tooltiptext"><%= element %> </span>
+						<% }) %>
+						<br>
+						<% if (db['mentor']) { %>
+							Mentor : <%= db['mentor'] %> 
+						<% } %>
+						
 					</p>	
 				</div>
 			</div>
@@ -57,12 +63,22 @@
 		<div class="col-xl-12">
 			<div class="card text-left">
 				<div class="card-body">
-					<a class="btn btn-primary" href=<%=db['git']%> >
-						Go To Git 
-					</a>
-					<a class="btn btn-secondary" href=<%=db['doc']%> >
-						Go To Doc 
-					</a>
+					<% if (db['git']) { %>
+						
+						<a class="btn btn-secondary" href=<%=db['git']%> >
+							<i class="bi bi-github" aria-hidden="true"></i> Go To Git
+						</a>
+					<% } %>
+					<% if (db['doc']) { %>
+						<a class="btn btn-primary" href=<%=db['doc']%> >
+							<i class="bi bi-file-earmark-word" aria-hidden="true"></i> Go To Doc 
+						</a>
+					<% } %>
+					<% if (db['slack']) { %>
+						<a class="btn btn-warning" href=<%=db['slack']%> >
+							<i class="bi bi-slack" aria-hidden="true"></i> Go To Slack
+						</a>
+					<% } %>
 				</div>
 			</div>
 			
@@ -163,10 +179,17 @@
 				</div>
 
 				<% for( var k in db['task']['subtask'][i]['subtask'][j]['subtask'] ) { %>
-					<p>
-						<%= db['task']['subtask'][i]['subtask'][j].description %>
-					</p>
-
+					<div class="jumbotron <%= db['task']['subtask'][i]['subtask'][j]['subtask'][k].name %>
+						" style="display: none;">
+						<h1 class="display-5">
+							<%= db['task']['subtask'][i]['subtask'][j]['subtask'][k].name %>
+						</h1>
+							<hr class="my-2">
+						<p>
+							<%= db['task']['subtask'][i]['subtask'][j]['subtask'][k].description %>
+						</p>
+					</div>
+				
 					<%}%>
 
 				<%}%>

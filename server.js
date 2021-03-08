@@ -21,10 +21,6 @@ app.use('/project',workspaceRoute)
 
 
 
-//  app.get('*',function(req,res){
-//      console.log(req.url);
-//      res.render('404')
-//  })
 
 
 app.listen(process.env.PORT || 8080)

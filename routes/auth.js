@@ -1,7 +1,9 @@
 const firebase = require('../controllers/auth')
-const db = require('../controllers/db')
+const fs = require('../controllers/db')
 const express = require('express');
 const router=express.Router()
+const db=fs.firestore()
+
 
 router.get('/login',function(req,res){
     res.render('login')
@@ -23,8 +25,11 @@ router.post("/register",function(req,res){
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(async (userCredential) => {
             var user=userCredential.user
+            user.updateProfile({
+                displayName:username 
+              })
 
-            await db.collection("Users").doc(user.uid).set({name:username,project:[]});
+            await db.collection("Users").doc(user.uid).set({project:[]});
             db.collection('Users')
             res.send("/project/dashboard")  
         })

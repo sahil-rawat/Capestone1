@@ -1,40 +1,77 @@
-const db=require('./db')
+const fs=require('./db')
 var admin = require("firebase-admin");
+var dateFormat = require("dateformat");
 
+const db=fs.firestore()
 
 exports.getDetails= async id=> {
     const Project = (await db.collection('Projects').doc(id).get()).data()
     return Project
-  }
+}
   
-  exports.setDetails= async (data,id) =>{
-    var skill= data.task.skills.split(' ')
-    data.task['skills']=skill.splice(0,skill.length-1)
-    const Project = await db.collection('Projects').doc(id)
-    const res = await Project.set(data, { merge: true })
-  }
+exports.setDetails= async (data,id) =>{
+  var skill= data.task.skills.split(' ')
+  data.task['skills']=skill.splice(0,skill.length-1)
+  const Project = db.collection('Projects').doc(id)
+  await Project.set(data, { merge: true })
+}
   
+exports.createProject= async (data,user,team,res) => {
+  var pid;
+  var uid = user.uid
+  var uemail=user.email
+  var uname=user.displayName
+  await db.collection("Projects").add(data)
+  .then(async (id)=>{
+    await team.forEach((member,index) =>{
+      admin.auth().getUserByEmail(member)
+      .then(async (userRecord) => {
+        var teamMemberName=userRecord.displayName;
+        var temMemberId=userRecord.uid
+        var teamMemberMail=userRecord.email;
+        var temp={}
+        temp[teamMemberName]=[teamMemberMail,temMemberId]
+        const Project = db.collection('Projects').doc(id.id)
+        await Project.set({
+          team: temp
+         }, { merge: true })
+        
+        await db.collection('Users').doc(temMemberId).update({
+          project: admin.firestore.FieldValue.arrayUnion(id.id)
+        });      
+      })
+      .catch((error) => {
+        res.status(404).send(index.toString())
+        console.log('Error fetching user data:', error);
+      });
+    })
+
+    var temp={}
+    temp[uname]=[uemail,uid]
+
+    const Project=db.collection('Projects').doc(id.id)
+    var now = new Date();
+    await Project.set({
+      projid:id.id,
+      startDate:dateFormat(now,'mediumDate')
+    }, { merge: true })
+      
+    await Project.set({
+      team: temp
+    },{ merge: true })
   
-  exports.createProject= async (data,uid) => {
-    var pid;
-    await db.collection("Projects").add(data)
-    .then(async (id)=>{
-        console.log(data.team);
-        data.team.forEach(member =>{
-            console.log(member);
-        })
-      const Project=db.collection('Projects').doc(id.id)
-      await Project.set({projid:id.id}, { merge: true })
-  
-      const User=db.collection('Users').doc(uid).update({
+    await db.collection('Users').doc(uid).update({
         project: admin.firestore.FieldValue.arrayUnion(id.id)
       });      
-      pid=id.id
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-    });
-    return pid
-  }
+    
+    pid=id.id
+    res.send('/project/'+pid+'/edit')
+  })
+  .catch((error) => {
+    res.status(500).send("Error adding document")
+    console.error("Error adding document: ", error);
+  });
+
+}
   
   

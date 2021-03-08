@@ -60,3 +60,13 @@
     padding: 7px;
   }
   
+
+ .tooltiptext {
+  display: none;
+  background-color: gray;
+  color: #fff;
+  text-align: center;
+  padding: 3px;
+  border-radius: 6px;
+ 
+}

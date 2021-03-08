@@ -1,17 +1,19 @@
-$('i').each(function(){
-	var curritag=$(this)
-	$(curritag.on('click',function(){
-		if(curritag.next().next().css('display')=='none'){
-			$(curritag.removeClass('fa-plus-circle'))
-			$(curritag.addClass('fa-minus-circle'))
-			$(curritag.next().next().css('display','block'))
-		}else{
-			$(curritag.removeClass('fa-minus-circle'))
-			$(curritag.addClass('fa-add-circle'))
-			$(curritag.next().next().css('display','none'))
-		}
-	}))
-})
+
+let a = document.getElementsByTagName('i')
+
+ for(let index = 0; index < a.length; index++){
+ 	a[index].addEventListener("click",function () {
+ 		if (a[index].nextElementSibling.nextElementSibling.style.display === 'none'){
+ 			a[index].classList.remove("fa-plus-circle");
+ 			a[index].classList.add("fa-minus-circle");
+ 			a[index].nextElementSibling.nextElementSibling.style.display = 'block';
+ 		}else{
+ 			a[index].classList.add("fa-plus-circle");
+ 			a[index].classList.remove("fa-minus-circle");
+ 			a[index].nextElementSibling.nextElementSibling.style.display = 'none';
+ 		}
+ 	})
+ }
 
 
 let b = document.getElementsByTagName('span')
@@ -24,4 +26,17 @@ for (let index = 0; index < b.length; index++) {
 		c=document.getElementsByClassName(b[index].id)[0]
 		c.style.display='block'
 	  })
+}
+
+
+function showname(){
+	
+	id=event.target.name
+	document.getElementById(id).style.display='inline'
+}
+
+function hidename(){
+	
+	id=event.target.name
+	document.getElementById(id).style.display='none'
 }
