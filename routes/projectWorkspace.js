@@ -67,7 +67,7 @@ router.get('/:id/edit',function(req,res){
 router.post('/:id/submit',function(req,res){
 	async function render(){
 		data=req.body
-		data['submitted']=false
+		data['submitted']=true
 		projDetail = await setDetails(data,req.params.id)
 		res.send(req.params.id)
 	}

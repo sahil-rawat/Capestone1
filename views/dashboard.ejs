@@ -22,9 +22,10 @@
 
 <body>
 	<% let db=JSON.parse(data) %>
-
+<div >
 	<ul>
 		<div class="row">
+			<div class="d-none d-md-block col-lg-1"></div>
 			<div class="d-none d-md-block col-lg-2">
 				<li class="circleGraphic1">9</li>
 			</div>
@@ -40,12 +41,15 @@
 			<div class="d-none d-md-block col-lg-2">
 				<li class="circleGraphic5">100</li>
 			</div>
+			<div class="d-none d-md-block col-lg-1"></div>
+
 			
 		</div>
 		
 	</ul>
 	<ul>
 		<div class="row">
+			<div class="d-none d-md-block col-lg-1"></div>
 			<div class="d-none d-md-block col-lg-2">
 				<li>
 					<div class="circle div" id="circle1"></div><br>
@@ -91,11 +95,13 @@
 					</div>
 				</li>
 			</div>
+			<div class="d-none d-md-block col-lg-1"></div>
+
 		</div>
 	</ul>
-	<br><br>
-	<div class="container w-80 p-3">
-		<div class="jumbotron">
+</div>
+<br>
+	<div class="container">
 			<div class="card">
 				<div class="header">
 					<ul>
@@ -111,7 +117,7 @@
 							<div class="container h-100">
 								<div class="d-flex justify-content-center h-100">
 									<div class="searchbar">
-										<input class="search_input" type="text" name="" placeholder="Search...">
+										<input class="search_input" type="text" id="search" placeholder="Search...">
 										<a href="#" class="search_icon"><i class="fa fa-search"></i></a>
 									</div>
 								</div>
@@ -121,13 +127,13 @@
 				</div>
 				<hr>
 				<div class="card-body">
-					<table class="table">
+					<table id="dashboarddetails" class="table table-hover table-striped">
 						<thead class="thead-dark">
 							<tr>
-								<th scope="col" style="text-align: center;">Sr No.</th>
-								<th scope="col" style="text-align: center;">Challenge Title</th>
+								<th scope="col" style="text-align: center;">S No.</th>
+								<th scope="col" style="text-align: center;">Project Title</th>
 								<th scope="col" style="text-align: center;">Start Date</th>
-								<th scope="col" style="text-align: center;">Application Status</th>
+								<th scope="col" style="text-align: center;">Project Status</th>
 								<th scope="col" style="text-align: center;">Workspace</th>
 							</tr>
 						</thead>
@@ -151,7 +157,6 @@
 					</table>
 				</div>
 			</div>
-		</div>
 	</div>
 
 
@@ -165,7 +170,18 @@
 						$('.circleGraphic5').circleGraphic({ 'color': '#7400b8' });
 
 				}
+				
 
 		</script>
+		<script>
+			$(document).ready(function(){
+				$("#search").on("keyup", function() {
+					var value = $(this).val().toLowerCase();
+					$("#dashboarddetails tbody").filter(function() {
+						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+					});
+				});
+			});
+			</script>
 		
 </body>
