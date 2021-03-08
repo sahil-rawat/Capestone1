@@ -75,3 +75,30 @@ exports.createProject= async (data,user,team,res) => {
 }
   
   
+
+let projid = [];
+let dashDetails = [];
+exports.projectDetails = async () => {
+
+  let id = "LKYT3pNnTybNUMHfhCoKabH63hV2";
+  const prid = db.collection("Users").doc(id);
+  await prid.get().then((doc) => {
+    if(!doc.exists) return;
+    doc.data().project.forEach(project => {
+      projid.push(project);
+    })
+    console.log(projid);
+  })
+
+  for(let i=0;i<projid.length;i++){
+    await db.collection("Projects").doc(projid[i])
+    .get().then((doc)=>{
+      if(!doc.exists) return;
+      const personDetails = new Object();
+      personDetails.name = doc.data().ProjName;
+      personDetails.date = doc.data().startDate;
+      dashDetails.push(personDetails);
+    })
+  }
+  console.log(dashDetails);
+}
