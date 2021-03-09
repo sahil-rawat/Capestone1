@@ -15,6 +15,7 @@ app.set("views", __dirname + "/views/");
 app.use(express.static(__dirname +"/public/"));
 
 app.use(bodyParser.json({type:"application/*"}))
+
 app.use('/',authRoute)
 
 app.use('/project',workspaceRoute)

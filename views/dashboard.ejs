@@ -101,7 +101,7 @@
 	</ul>
 </div>
 <br>
-	<div class="container">
+	<div class="container w-80 p-3">
 			<div class="card">
 				<div class="header">
 					<ul>
@@ -117,8 +117,8 @@
 							<div class="container h-100">
 								<div class="d-flex justify-content-center h-100">
 									<div class="searchbar">
-										<input class="search_input" type="text" id="search" placeholder="Search...">
-										<a href="#" class="search_icon"><i class="fa fa-search"></i></a>
+										<input class="search_input" type="text" id="search" placeholder="Search..." name="">
+										<a class="search_icon"><i class="fa fa-search"></i></a>
 									</div>
 								</div>
 							</div>
@@ -141,7 +141,7 @@
 							<% for( let i = 0; i < db.length; i++ ) { %>
 								<tr style="text-align: center;">
 									<th scope="row"><%= i+1 %></th>
-									<td><%= db[i].name %></td>
+									<td class="pname"><%= db[i].name %></td>
 									<td><%= db[i].date %></td>
 									<td>In Progress</td>
 									<% if (db[i].submitted) { %>
@@ -174,14 +174,15 @@
 
 		</script>
 		<script>
-			$(document).ready(function(){
+			window.onload = function(){
 				$("#search").on("keyup", function() {
 					var value = $(this).val().toLowerCase();
-					$("#dashboarddetails tbody").filter(function() {
-						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+					
+					$("#dashboarddetails tbody tr").filter(function() {
+						$(this).toggle($(this).children(".pname").text().toLowerCase().indexOf(value) > -1)
 					});
 				});
-			});
+			}
 			</script>
 		
 </body>

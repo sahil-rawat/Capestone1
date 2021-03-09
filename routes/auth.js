@@ -5,6 +5,10 @@ const router=express.Router()
 const db=fs.firestore()
 
 
+router.get('/',function(req,res){
+    res.redirect('/project/dashboard')
+})
+
 router.get('/login',function(req,res){
     res.render('login')
 })
