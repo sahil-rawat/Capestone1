@@ -162,27 +162,24 @@
 
 		<script type="text/javascript">
 				window.onload = function () {
-						$('.circleGraphic1').circleGraphic({ 'color': '#6b705c' });
-						$('.circleGraphic2').circleGraphic({ 'color': '#fca311' });
-						$('.circleGraphic3').circleGraphic({ 'color': '#386641' });
 
-						$('.circleGraphic4').circleGraphic({ 'color': '#003049' });
-						$('.circleGraphic5').circleGraphic({ 'color': '#7400b8' });
+						$("#search").on("keyup", function() {
+							var value = $(this).val().toLowerCase();
+							console.log("1");
+							
+							$("#dashboarddetails tbody tr").filter(function() {
+								$(this).toggle($(this).children(".pname").text().toLowerCase().indexOf(value) > -1)
+							});
+						});
 
+					$('.circleGraphic1').circleGraphic({ 'color': '#6b705c' });
+					$('.circleGraphic2').circleGraphic({ 'color': '#fca311' });
+					$('.circleGraphic3').circleGraphic({ 'color': '#386641' });
+					$('.circleGraphic4').circleGraphic({ 'color': '#003049' });
+					$('.circleGraphic5').circleGraphic({ 'color': '#7400b8' });
 				}
 				
 
 		</script>
-		<script>
-			window.onload = function(){
-				$("#search").on("keyup", function() {
-					var value = $(this).val().toLowerCase();
-					
-					$("#dashboarddetails tbody tr").filter(function() {
-						$(this).toggle($(this).children(".pname").text().toLowerCase().indexOf(value) > -1)
-					});
-				});
-			}
-			</script>
 		
 </body>
