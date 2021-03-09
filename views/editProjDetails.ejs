@@ -26,9 +26,9 @@
 <body>
 	<% let db=JSON.parse(data) %>
 
-	<div class="row no-gutters">
+	<div class="row no-gutters jumbotron" style="padding: 0px;">
 		<div class="col-xl-9">
-			<div class="jumbotron jumbotron-fluid">
+			<div class="jumbotron">
 				<div class="container">
 					<h2  class="display-5">
 						Project Name : <%=db['project_name']%>
@@ -49,47 +49,72 @@
 						<% if (db['mentor']) { %>
 							Mentor : <%= db['mentor'] %> 
 						<% } %>
-						
 					</p>	
 				</div>
 			</div>
 		</div>
 
 		<div class="col-xl-3">
-			<div class=" text-left">
-				<div class="card-body">
-					
+			<div class="card-body">
+				<div class="row">
+
+					<div class="col-xl-6">
+						<div class="progress-circle over50 p100">
+							<span>100%</span>
+							<div class="left-half-clipper">
+								<div class="first50-bar"></div>
+								<div class="value-bar"></div>
+							</div>	
+				 		</div>
+						Assigned Progress
+					</div>
+
+					<div class="col-xl-6">
+						<div class="progress-circle p<%= db.progress %>">
+							<span><%= db.progress %>%</span>
+							<div class="left-half-clipper">
+								<div class="first50-bar"></div>
+								<div class="value-bar"></div>
+							</div>
+				 		</div>
+				 		Overall Progress
+					</div>
+
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="no-gutters">
-		<div class="col-xl-12">
-			<div class="card text-left">
-				<div class="card-body">
-					<% if (db['git']) { %>
-						
-						<a class="btn btn-secondary" href=<%=db['git']%> >
-							<i class="bi bi-github" aria-hidden="true"></i> Go To Git
-						</a>
-					<% } %>
-					<% if (db['doc']) { %>
-						<a class="btn btn-primary" href=<%=db['doc']%> >
-							<i class="bi bi-file-earmark-word" aria-hidden="true"></i> Go To Doc 
-						</a>
-					<% } %>
-					<% if (db['slack']) { %>
-						<a class="btn btn-warning" href=<%=db['slack']%> >
-							<i class="bi bi-slack" aria-hidden="true"></i> Go To Slack
-						</a>
-					<% } %>
-					
-					
+
+	<% if (db['git'] || db['doc'] || db['slack']) { %> 
+
+		<div class="no-gutters">
+			<div class="col-xl-12">
+				<div class="card text-left">
+					<div class="card-body">
+						<% if (db['git']) { %>
+							
+							<a class="btn btn-secondary" href=<%=db['git']%> >
+								<i class="bi bi-github" aria-hidden="true"></i> Go To Git
+							</a>
+						<% } %>
+						<% if (db['doc']) { %>
+							<a class="btn btn-primary" href=<%=db['doc']%> >
+								<i class="bi bi-file-earmark-word" aria-hidden="true"></i> Go To Doc 
+							</a>
+						<% } %>
+						<% if (db['slack']) { %>
+							<a class="btn btn-warning" href=<%=db['slack']%> >
+								<i class="bi bi-slack" aria-hidden="true"></i> Go To Slack
+							</a>
+						<% } %>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+		<% } %> 
+		
+
 <form>
 </div>
 	<div class="jumbotron row no-gutters">
@@ -168,8 +193,7 @@ function handlesubmit(){
 		}
 	}
 } 
-</script>
-<script>
+
 	jQuery(function($) {
 		$('#tags input').on('focusout', function() {
 			var txt = this.value.replace(/[^a-zA-Z0-9\+\-\.\#]/g, ''); 
@@ -186,6 +210,9 @@ function handlesubmit(){
 			document.getElementById('task[skills]').value=document.getElementById('task[skills]').value.slice(0,removeIndex)
 			$(this).remove();
 	});
+	
 	});
+	
+	
 </script>
 </html>

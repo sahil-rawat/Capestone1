@@ -89,4 +89,20 @@ router.get('/:id',function(req,res){
 	render()
 })
 
+router.get('/:id/progress',function(req,res){
+	async function render(){
+		projDetail = await getDetails(req.params.id)
+		if(projDetail){
+			res.render('projProgress',{ 
+				data:JSON.stringify(projDetail),
+				projid:req.params.id
+			})
+		}
+		else{
+			res.render('404')
+		}
+	}
+	render()
+})
+
 module.exports = router;

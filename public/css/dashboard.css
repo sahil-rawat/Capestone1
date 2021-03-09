@@ -137,6 +137,7 @@ hr {
 }
 
 .searchbar:hover > .search_icon{
+    display: none;
     background: white;
     color: #e74c3c;
 }
@@ -171,4 +172,5 @@ hr {
     background-color: #232D64;
     color: white;
 }
+
 

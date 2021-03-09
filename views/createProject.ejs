@@ -2,122 +2,54 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>WMS</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+
+    <link rel="stylesheet" href="/css/createproject.css">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+
+
+
   </head>
   <body>
-    <div class="container">
-        <form class="well form-horizontal" style="background-color:#EAF6F6;" onsubmit ="formSubmit()" id="Registration_form" >
-  <fieldset>
-  <legend><center><h2><strong style="color:blue;">Registration Form</strong></h2></center></legend><br>
- 
-<center><p id="warning" style="display:none;color:red">*</p></center>
+    <div id="loader" class="loader" style="display: none;"> 
+      <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+     <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+    
 
-  <div class="form-group">
-  <label class="col-md-4 control-label">Project Name</label>
-  <div class="col-md-5 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-  <input  name="Project_Name" id="Project_Name" placeholder="Project Name" class="form-control"  type="text">
-  </div>
-  </div>
-  </div>
+  <div id="wrapper">
+        	
+    <div id="subscribeBox">
+      <h2><span class="thin">CREATE A</span> PROJECT</h2>
+        
+        <p id="warning" style="display:none;color:red">*</p>
+    
+    <form class="subscribeForm" name="Subscription Form" onsubmit ="formSubmit()">
+    
+      <input name="Project_Name" id="Project_Name" placeholder="Project Name*"  type="text">
+      <input name="mailid_1" id="0" placeholder="Enter Team Member 1 Mail ID " type="text">
+      <input name="mailid_2" id="1" placeholder="Enter Team Member 2 Mail ID " type="text">
+      <input name="mailid_3" id="2" placeholder="Enter Team Member 3 Mail ID " type="text">
+      <input name="mailid_4" id="3" placeholder="Enter Team Member 4 Mail ID " type="text">
+      <input name="mentor_mailid"  id="mentor_mailid"  placeholder="Enter Mentor Mail ID "type="text">
 
-
-
-  <div class="form-group" >
-  <label class="col-md-4 control-label" >Team Member 1</label>
-  <div class="col-md-5 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-  <input name="mailid_1" id="0" placeholder="abc@gmail.com" class="form-control"  type="text">
-  </div>
-  </div>
-  </div>
-
-  <div class="form-group">
-  <label class="col-md-4 control-label" >Team Member 2</label>
-  <div class="col-md-5 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-  <input name="mailid_2" id="1" placeholder="abc@gmail.com" class="form-control"  type="text">
-  </div>
-  </div>
-  </div>
-
-  <div class="form-group">
-  <label class="col-md-4 control-label" >Team Member 3</label>
-  <div class="col-md-5 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-  <input name="mailid_3" id="2" placeholder="abc@gmail.com" class="form-control"  type="text">
-  </div>
-  </div>
-  </div>
-
-  <div class="form-group">
-  <label class="col-md-4 control-label" >Team Member 4</label>
-  <div class="col-md-5 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-  <input name="mailid_4" id=3 placeholder="abc@gmail.com" class="form-control"  type="text">
-  </div>
-  </div>
-  </div>
-
-  <div class="form-group">
-  <label class="col-md-4 control-label" >Mentor</label>
-  <div class="col-md-5 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-  <input name="mentor_mailid"  id="mentor_mailid"  placeholder="abc@gmail.com" class="form-control"  type="text">
-  </div>
-  </div>
-  </div>
-
-  <div class="form-group">
-  <label class="col-md-4 control-label">Git Repository Link</label>
-  <div class="col-md-5 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input  name="git" id="git" placeholder="" class="form-control"  type="text">
-  </div>
-  </div>
-  </div>
-
-  <div class="form-group">
-  <label class="col-md-4 control-label">Google Docs Link</label>
-  <div class="col-md-5 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input  name="google_docs" id="google_docs" placeholder="" class="form-control"  type="text">
-  </div>
-  </div>
-  </div>
-
-  <div class="form-group">
-  <label class="col-md-4 control-label">Slack Link</label>
-  <div class="col-md-5 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input  name="slack"  id="slack" placeholder="" class="form-control"  type="text">
-  </div>
-  </div>
-  </div>
-
-
-  <div class="form-group">
-  <label class="col-md-5 control-label"></label>
-  <div class="col-md-4"><br>
-  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit" class="btn btn-success">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSUBMIT <span class="glyphicon glyphicon-send"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
-  </div>
-  </div>
-  </fieldset>
-  </form>
-  </div>
+      <input name="git" id="git" placeholder="Add Github Repo Link" type="text">
+      <input name="google_docs" id="google_docs" placeholder="Add Document Link" type="text">
+      <input name="slack"  id="slack" placeholder="Add Slack Channel Link"  type="text">
+      
+      <input id="submit" type="submit" value="Send">
+            
+    </form>
+            
+    </div>
   <script src="/js/createproject.js"></script>
 
   </body>
