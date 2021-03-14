@@ -28,6 +28,7 @@ function formSubmit() {
   var formdata={}
   var data={};
   var team=[]
+  var mentor;
   data['project_name']= document.querySelector('#Project_Name').value;
 
   if(data['project_name']==''){
@@ -50,8 +51,10 @@ function formSubmit() {
   data['git'] = document.querySelector('#git').value;
   data['doc'] = document.querySelector('#google_docs').value;
   data['slack'] = document.querySelector('#slack').value;
-  
-  data['mentor']=document.querySelector('#mentor_mailid').value
+  if(document.getElementById('4').value!=''){
+    mentor = document.getElementById('4').value
+    formdata['mentor']=mentor
+  }
   data['progress']=0
   data['submitted']=false
 

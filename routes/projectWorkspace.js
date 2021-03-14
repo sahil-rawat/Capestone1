@@ -1,7 +1,7 @@
 const express = require('express');
 const router=express.Router()
 const isAuthenticated=require('../middleware/isAuthenticated')
-const {getDetails,setDetails,createProject, projectDetails} =require('../controllers/functions')
+const {getDetails,setDetails,createProject, projectDetails, checkProject} =require('../controllers/functions')
 
 
 
@@ -35,7 +35,8 @@ router.post('/createproject/submit',function(req,res){
 	async function render(){
 		data=req.body.data
 		team=req.body.team
-		projId = await createProject(data,req.user,team,res)
+		mentor=req.body.mentor
+		projId = await createProject(data,req.user,team,mentor,res)
 
 	}
 	render()
@@ -44,8 +45,9 @@ router.post('/createproject/submit',function(req,res){
 
 router.get('/:id/edit',function(req,res){
 	async function render(){
+		isAllowed = await checkProject(req.user.uid,req.params.id)
 		projDetail = await getDetails(req.params.id)
-		if(projDetail){
+		if(isAllowed && projDetail){
 			if(!projDetail.submitted){
 				res.render('editProjDetails',{ 
 				data:JSON.stringify(projDetail),
@@ -73,10 +75,13 @@ router.post('/:id/submit',function(req,res){
 	}
 	render()
 })
+
 router.get('/:id',function(req,res){
 	async function render(){
+		isAllowed = await checkProject(req.user.uid,req.params.id)
 		projDetail = await getDetails(req.params.id)
-		if(projDetail){
+		console.log(isAllowed && projDetail);
+		if(isAllowed && projDetail){
 			res.render('projDetails',{ 
 				data:JSON.stringify(projDetail),
 				projid:req.params.id
@@ -91,8 +96,9 @@ router.get('/:id',function(req,res){
 
 router.get('/:id/progress',function(req,res){
 	async function render(){
+		isAllowed = await checkProject(req.user.uid,req.params.id)
 		projDetail = await getDetails(req.params.id)
-		if(projDetail){
+		if(isAllowed && projDetail){
 			res.render('projProgress',{ 
 				data:JSON.stringify(projDetail),
 				projid:req.params.id

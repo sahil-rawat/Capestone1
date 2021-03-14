@@ -42,7 +42,11 @@
 						<% }) %>
 						<br>
 						<% if (db['mentor']) { %>
-							Mentor : <%= db['mentor'] %> 
+							Mentor:
+							<% Object.keys(db['mentor']).forEach(element => { %>
+								<img onmouseover="showname()" onmouseout="hidename()" name="<%= element %>" src="https://ui-avatars.com/api/?background=random&rounded=true&size=32&name=<%= element.split(" ").join("+") %> %>">  
+								<span id="<%= element %>" class="tooltiptext"><%= element %> </span>
+						<% }) %>
 						<% } %>
 					</p>	
 				</div>
@@ -98,7 +102,7 @@
 						</a>
 					<% } %>
 					<% if (db['slack']) { %>
-						<a class="btn btn-warning" href=<%=db['slack']%> >
+						<a class="btn btn-warning" href=<%= db['slack']%> >
 							<i class="bi bi-slack" aria-hidden="true"></i> Go To Slack
 						</a>
 					<% } %>
@@ -187,7 +191,7 @@
 		</div>
 	</div>
 
-	<div class="jumbotron col-xl-7" style="padding-top:0px;padding-bottom: 0px;">
+	<div class="jumbotron col-xl-7" style="padding-top:0px;padding-bottom: 0px;margin-bottom: 0px;">
 		<div class="jumbotron <%= db['task'].name %> " style="display:block;">
 			<h1 class="display-5">
 			 <%= db['task'].name %>

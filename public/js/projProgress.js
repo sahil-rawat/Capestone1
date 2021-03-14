@@ -13,3 +13,17 @@ function test(){
 		"width": activeWidthNewAnimWidth + "px"
 	});
 }
+
+
+function showname(){
+	
+	id=event.target.name
+	document.getElementById(id).style.display='inline'
+}
+
+function hidename(){
+	
+	id=event.target.name
+	document.getElementById(id).style.display='none'
+}
+

@@ -47,7 +47,11 @@
 						<% }) %>
 						<br>
 						<% if (db['mentor']) { %>
-							Mentor : <%= db['mentor'] %> 
+							Mentor:
+							<% Object.keys(db['mentor']).forEach(element => { %>
+								<img onmouseover="showname()" onmouseout="hidename()" name="<%= element %>" src="https://ui-avatars.com/api/?background=random&rounded=true&size=32&name=<%= element.split(" ").join("+") %> %>">  
+								<span id="<%= element %>" class="tooltiptext"><%= element %> </span>
+						<% }) %>
 						<% } %>
 					</p>	
 				</div>

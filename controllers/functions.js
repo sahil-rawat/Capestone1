@@ -16,11 +16,12 @@ exports.setDetails= async (data,id) =>{
   await Project.set(data, { merge: true })
 }
   
-exports.createProject= async (data,user,team,res) => {
+exports.createProject= async (data,user,team,mentor,res) => {
   var pid;
   var uid = user.uid
   var uemail=user.email
   var uname=user.displayName
+  var teamMemberRole="Team Member"
   await db.collection("Projects").add(data)
   .then(async (id)=>{
     await team.forEach((member,index) =>{
@@ -30,24 +31,52 @@ exports.createProject= async (data,user,team,res) => {
         var temMemberId=userRecord.uid
         var teamMemberMail=userRecord.email;
         var temp={}
-        temp[teamMemberName]=[teamMemberMail,temMemberId]
+        temp[teamMemberName]=[teamMemberMail,temMemberId,teamMemberRole]
         const Project = db.collection('Projects').doc(id.id)
         await Project.set({
           team: temp
          }, { merge: true })
-        
+        if(temMemberId!=uid){
         await db.collection('Users').doc(temMemberId).update({
-          project: admin.firestore.FieldValue.arrayUnion(id.id)
-        });      
+          project: admin.firestore.FieldValue.arrayUnion({pid:id.id,role:"Team Member"})
+        });     
+      } 
       })
       .catch((error) => {
         res.status(404).send(index.toString())
         console.log('Error fetching user data:', error);
       });
     })
+      if(mentor){
+      admin.auth().getUserByEmail(mentor)
+        .then(async (userRecord) => {
+          var mentorName=userRecord.displayName;
+          var mentorId=userRecord.uid
+          var mentorMail=userRecord.email;
+          var temp={}
+          temp[mentorName]=[mentorMail,mentorId,"Mentor"]
+          const Project = db.collection('Projects').doc(id.id)
+          await Project.set({
+            mentor: temp
+          }, { merge: true })
+          if(mentorId!=uid){
+          await db.collection('Users').doc(mentorId).update({
+            project: admin.firestore.FieldValue.arrayUnion({pid:id.id,role:"Mentor"})
+          });     
+        } 
+        })
+        .catch((error) => {
+          res.status(404).send('4')
+          console.log('Error fetching user data:', error);
+        });
+    }
+
+
+
+
 
     var temp={}
-    temp[uname]=[uemail,uid]
+    temp[uname]=[uemail,uid,"Team Leader"]
 
     const Project=db.collection('Projects').doc(id.id)
     var now = new Date();
@@ -61,7 +90,7 @@ exports.createProject= async (data,user,team,res) => {
     },{ merge: true })
   
     await db.collection('Users').doc(uid).update({
-        project: admin.firestore.FieldValue.arrayUnion(id.id)
+        project: admin.firestore.FieldValue.arrayUnion({pid:id.id,role:"Team Leader"})
       });      
     
     pid=id.id
@@ -85,20 +114,38 @@ exports.projectDetails = async (uid) => {
       projid.push(proj);
     })
   })
- 
   for(let i=0;i<projid.length;i++){
-    await db.collection("Projects").doc(projid[i])
+    await db.collection("Projects").doc(projid[i].pid)
     .get().then((doc)=>{
       const personDetails = {};
       personDetails.name = doc.data().project_name;
       personDetails.date = doc.data().startDate;
       personDetails.id = doc.data().projid;
       personDetails.submitted = doc.data().submitted;
-
-
-      dashDetails.push(personDetails);
+      personDetails.role=projid[i].role
+      if (personDetails.submitted){
+        dashDetails.push(personDetails);
+      }
+      if(!personDetails.submitted && personDetails.role=="Team Leader"){
+        dashDetails.push(personDetails);
+      }
+  
+      
     })
   }
 
   return dashDetails
+}
+
+
+exports.checkProject = async (uid,pid) =>{
+  var check=false;
+  await db.collection("Users").doc(uid).get().then((doc) => {
+    doc.data().project.forEach(proj => {
+      if (proj.pid==pid){
+        check= true
+      }
+    })
+  })
+  return check
 }

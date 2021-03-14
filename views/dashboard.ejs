@@ -134,6 +134,7 @@
 								<th scope="col" style="text-align: center;">Project Title</th>
 								<th scope="col" style="text-align: center;">Start Date</th>
 								<th scope="col" style="text-align: center;">Project Status</th>
+								<th scope="col" style="text-align: center;">Role</th>
 								<th scope="col" style="text-align: center;">Workspace</th>
 							</tr>
 						</thead>
@@ -144,6 +145,7 @@
 									<td class="pname"><%= db[i].name %></td>
 									<td><%= db[i].date %></td>
 									<td>In Progress</td>
+									<td><%= db[i].role %></td>
 									<% if (db[i].submitted) { %>
 										<td><a style="font-family:Georgia, 'Times New Roman', Times, serif; font-weight: bold;" class="button" href="/project/<%= db[i].id%>">Go To WorkSpace</a></td>
 									<% }else{ %>
