@@ -84,11 +84,11 @@ a:hover{
 }
 
 
-.project{
+#project{
     color: darkblue;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .header ul li{
@@ -102,7 +102,7 @@ hr {
     border:black;
     border-top: 3px double #333;
     color: #333;
-    overflow: visible;
+    overflow: hidden;
     text-align: center;
     text-shadow: black;
     height: 10px;
@@ -157,7 +157,7 @@ hr {
 .button {
     border-color:#232D64 ;
     color: #232D64;
-    width: 13rem;
+    width: 100%;
     border: 2px solid;
     padding: 8px 13px;
     text-align: center;
