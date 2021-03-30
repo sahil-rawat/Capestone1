@@ -46,7 +46,7 @@ input {
 
 body {
   background-color: #e6e6e6;
-  margin: 0 auto;
+  margin: 0 auto 0 auto;
 }
 
 #wrapper {
@@ -75,7 +75,7 @@ body {
 h2 {
   font-weight: 500;
   letter-spacing: .05em;
-  color: #333333;
+  color: #e40017;
   font-style: normal;
   font-family: source-sans-pro, sans-serif;
 }
@@ -86,7 +86,7 @@ h2 {
 
 a {
   text-decoration: none;
-  color: #333333;
+  color: #e40017;
 }
 
 a:hover {
