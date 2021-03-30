@@ -4,11 +4,12 @@ input {
   border: 2px solid #eeeeee;
   height: 46px;
   width: 100%;
-  margin: 10px 0 0 0;
+  margin: 0;
+  margin-top:10px;
   padding: 1%;
   font-size: 1.2em;
   line-height: 1.5em;
-  color: #333333;
+  color: #e40017;
   letter-spacing: .01em;
   font-style: normal;
   font-weight: 300;
@@ -30,7 +31,7 @@ input {
   border: 0;
   font-size: 1.2em;
   line-height: 1.5em;
-  color: #333333;
+  color: #e40017;
   letter-spacing: .01em;
   font-style: normal;
   font-weight: 300;
