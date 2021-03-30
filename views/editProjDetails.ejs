@@ -1,1 +1,121 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>WMS</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/css/editProjDetails.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.1.1/jquery.serializejson.js" ></script>
+
+		
+		
+
+</head>
+
+<body>
+	<% let db=JSON.parse(data) %>
+
+	<div class="row no-gutters jumbotron" style="padding: 0px;">
+		<div class="col-xl-9">
+			<div class="jumbotron">
+				<div class="container">
+					<h2  class="display-5">
+						Project Name : <%=db['project_name']%>
+					</h2>
+					<hr class="my-2">
+					<p class="card-text">
+						<% if (db['duration']) { %>
+							Duration : <%=db['duration']%> <br>
+						<% } %>
+						
+						Team:
+					
+						<% Object.keys(db['team']).forEach(element => { %>
+								<img onmouseover="showname()" onmouseout="hidename()" name="<%= element %>" src="https://ui-avatars.com/api/?background=random&rounded=true&size=32&name=<%= element.split(" ").join("+") %> %>">  
+								<span id="<%= element %>" class="tooltiptext"><%= element %> </span>
+						<% }) %>
+						<br>
+						<% if (db['mentor']) { %>
+							Mentor:
+							<% Object.keys(db['mentor']).forEach(element => { %>
+								<img onmouseover="showname()" onmouseout="hidename()" name="<%= element %>" src="https://ui-avatars.com/api/?background=random&rounded=true&size=32&name=<%= element.split(" ").join("+") %> %>">  
+								<span id="<%= element %>" class="tooltiptext"><%= element %> </span>
+						<% }) %>
+						<% } %>
+					</p>	
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-3 d-none d-md-block">
+			<div class="card-body">
+				<div class="row">
+
+					<div class="col-xl-6">
+						<div class="progress-circle over50 p100">
+							<span>100%</span>
+							<div class="left-half-clipper">
+								<div class="first50-bar"></div>
+								<div class="value-bar"></div>
+							</div>	
+				 		</div>
+						Assigned Progress
+					</div>
+
+					<div class="col-xl-6">
+						<div class="progress-circle p<%= db.progress %>">
+							<span><%= db.progress %>%</span>
+							<div class="left-half-clipper">
+								<div class="first50-bar"></div>
+								<div class="value-bar"></div>
+							</div>
+				 		</div>
+				 		Overall Progress
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<% if (db['git'] || db['doc'] || db['slack']) { %> 
+
+		<div class="no-gutters">
+			<div class="col-xl-12">
+				<div class="card text-left">
+					<div class="card-body">
+						<% if (db['git']) { %>
+							
+							<a class="btn btn-secondary" href=<%=db['git']%> >
+								<i class="bi bi-github" aria-hidden="true"></i> Go To Git
+							</a>
+						<% } %>
+						<% if (db['doc']) { %>
+							<a class="btn btn-primary" href=<%=db['doc']%> >
+								<i class="bi bi-file-earmark-word" aria-hidden="true"></i> Go To Doc 
+							</a>
+						<% } %>
+						<% if (db['slack']) { %>
+							<a class="btn btn-warning" href=<%=db['slack']%> >
+								<i class="bi bi-slack" aria-hidden="true"></i> Go To Slack
+							</a>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<% } %> 
+		
 
