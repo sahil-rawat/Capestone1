@@ -117,5 +117,106 @@
 			</div>
 		</div>
 		<% } %> 
+		<form>
+</div>
+	<div class="jumbotron row no-gutters">
+		<div class="col-xl-5">
+			<div class="text-left">
+				<div class="card-body">
+					<h3>Project Details</h3>
+					<br>
+					<ul id=1 style="list-style-type: none;">
+						<li >
+							<input onchange="render()" name=task[name] id="task[name]" onclick="showdesc()" id=0 class="list-group-item list-group-item-primary taskinput" style="display:inline-block; margin:5px;" placeholder="TaskName">
+							<i onclick="return addchild()" class="fa fa-plus-circle" aria-hidden="true"></i>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-7">
+			<div class="text-left">
+				<div class="card-body" id="description">
+					<div class="form-group" id="task[description]">
+						<h3 id=task[heading]></h3>
+						<div id="inp" >
+							<input name="task[category]" id="task[category]" type="text" placeholder="Category"/>
+						</div>
+						
+						<br>
+						<br>
+						<div id="tags" >
+							<input type="text" placeholder="Add a skill" />
+							<input name="task[skills]" id="task[skills]" type="hidden" value=""/>
+						</div>
+						<br><br><br>
+						<label >Task Description: </label>
+						<div id="inp" style="display: block;">
+						<textarea class="form-control" name="task[description]" id="task[description]" rows="15"></textarea>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="d-flex justify-content-center">
+	<button onclick="handlesubmit()" class="btn btn-primary">Submit</button>
+	</div>
+</form>
+
+	
+	
+</body>
+<script src="/js/editProjDetails.js"></script>
+
+<script> 
+
+function handlesubmit(){
+	if(validateForm()){
+		event.preventDefault()
+		data=$('form').serializeJSON()
+		console.log(JSON.stringify(data));
+		var http = new XMLHttpRequest();
+		http.open("POST", "/project/<%= projid %>/submit");
+		http.setRequestHeader("Content-Type","application/json")
+		http.send(JSON.stringify(data));
+		console.log(http.responseText); 
+		http.onreadystatechange = function () {
+			if(http.readyState === XMLHttpRequest.DONE) {
+				var status = http.status;
+				if (status === 0 || (status >= 200 && status < 400)) {
+					console.log(http.responseText)
+					window.location=('/project/'+http.responseText)
+				} else {
+					alert("Something Went Wrong!! Please Try again Later!")
+				}
+			}
+		}
+	}
+} 
+
+	jQuery(function($) {
+		$('#tags input').on('focusout', function() {
+			var txt = this.value.replace(/[^a-zA-Z0-9\+\-\.\#]/g, ''); 
+			if (txt) {
+				$(this).before('<span class="tag">' + txt + '</span>');
+				document.getElementById('task[skills]').value+=txt+' '
+			}
+			this.value = "";
+		}).on('keyup', function(e) {
+			if (/(188|13)/.test(e.which)) $(this).trigger('focusout');
+		});
+		$('#tags').on('click', '.tag', function() {
+			var removeIndex=document.getElementById('task[skills]').value.length-(this.innerHTML.length+1)
+			document.getElementById('task[skills]').value=document.getElementById('task[skills]').value.slice(0,removeIndex)
+			$(this).remove();
+	});
+	
+	});
+	
+	
+</script>
+</html>
 		
 
