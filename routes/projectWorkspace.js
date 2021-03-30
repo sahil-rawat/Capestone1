@@ -36,7 +36,12 @@ router.post('/createproject/submit',function(req,res){
 		data=req.body.data
 		team=req.body.team
 		mentor=req.body.mentor
-		projId = await createProject(data,req.user,team,mentor,res)
+		await createProject(data,req.user,team,mentor,res)
+		.then(async (r)=>{
+				console.log(r)
+			}
+		)
+		//res.send(projId)
 
 	}
 	render()

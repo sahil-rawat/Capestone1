@@ -18,14 +18,15 @@ exports.setDetails= async (data,id) =>{
   
 exports.createProject= async (data,user,team,mentor,res) => {
   var pid;
+  var sent=false;
   var uid = user.uid
   var uemail=user.email
   var uname=user.displayName
   var teamMemberRole="Team Member"
-  await db.collection("Projects").add(data)
+  var tmp=await db.collection("Projects").add(data)
   .then(async (id)=>{
-    await team.forEach((member,index) =>{
-      admin.auth().getUserByEmail(member)
+    var tmp=await team.forEach(async (member,index) =>{
+      var tmp=await admin.auth().getUserByEmail(member)
       .then(async (userRecord) => {
         var teamMemberName=userRecord.displayName;
         var temMemberId=userRecord.uid
@@ -33,74 +34,86 @@ exports.createProject= async (data,user,team,mentor,res) => {
         var temp={}
         temp[teamMemberName]=[teamMemberMail,temMemberId,teamMemberRole]
         const Project = db.collection('Projects').doc(id.id)
-        await Project.set({
+        var tmp=await Project.set({
           team: temp
          }, { merge: true })
         if(temMemberId!=uid){
-        await db.collection('Users').doc(temMemberId).update({
+          var tmp=await db.collection('Users').doc(temMemberId).update({
           project: admin.firestore.FieldValue.arrayUnion({pid:id.id,role:"Team Member"})
         });     
       } 
-      })
-      .catch((error) => {
+      },(error) => {
         res.status(404).send(index.toString())
+        sent=true
         console.log('Error fetching user data:', error);
       });
     })
-      if(mentor){
+    if(mentor && !sent){
+      console.log("in mentor",sent)
       admin.auth().getUserByEmail(mentor)
-        .then(async (userRecord) => {
-          var mentorName=userRecord.displayName;
-          var mentorId=userRecord.uid
-          var mentorMail=userRecord.email;
-          var temp={}
-          temp[mentorName]=[mentorMail,mentorId,"Mentor"]
-          const Project = db.collection('Projects').doc(id.id)
-          await Project.set({
-            mentor: temp
-          }, { merge: true })
-          if(mentorId!=uid){
-          await db.collection('Users').doc(mentorId).update({
-            project: admin.firestore.FieldValue.arrayUnion({pid:id.id,role:"Mentor"})
+      .then(async (userRecord) => {
+        var mentorName=userRecord.displayName;
+        var mentorId=userRecord.uid
+        var mentorMail=userRecord.email;
+        var temp={}
+        temp[mentorName]=[mentorMail,mentorId,"Mentor"]
+        const Project = db.collection('Projects').doc(id.id)
+        var tmp=await Project.set({
+          mentor: temp
+        }, { merge: true })
+        if(mentorId!=uid){
+          var tmp=await db.collection('Users').doc(mentorId).update({
+          project: admin.firestore.FieldValue.arrayUnion({pid:id.id,role:"Mentor"})
           });     
         } 
-        })
-        .catch((error) => {
-          res.status(404).send('4')
+        },(error) => {
+          if(!sent){
+            res.status(404).send('4')
+            sent=true
+          }
           console.log('Error fetching user data:', error);
-        });
+        })        
     }
+    if(!sent){
 
+      console.log("in team leader",sent)
 
+      var temp={}
+      temp[uname]=[uemail,uid,"Team Leader"]
 
-
-
-    var temp={}
-    temp[uname]=[uemail,uid,"Team Leader"]
-
-    const Project=db.collection('Projects').doc(id.id)
-    var now = new Date();
-    await Project.set({
-      projid:id.id,
-      startDate:dateFormat(now,'mediumDate')
-    }, { merge: true })
-      
-    await Project.set({
-      team: temp
-    },{ merge: true })
-  
-    await db.collection('Users').doc(uid).update({
-        project: admin.firestore.FieldValue.arrayUnion({pid:id.id,role:"Team Leader"})
-      });      
+      const Project=db.collection('Projects').doc(id.id)
+      var now = new Date();
+      var tmp=await Project.set({
+        projid:id.id,
+        startDate:dateFormat(now,'mediumDate')
+      }, { merge: true })
+        
+      var tmp=await Project.set({
+        team: temp
+      },{ merge: true })
     
-    pid=id.id
-    res.send('/project/'+pid+'/edit')
-  })
-  .catch((error) => {
-    res.status(500).send("Error adding document")
-    console.error("Error adding document: ", error);
-  });
+      var tmp=await db.collection('Users').doc(uid).update({
+          project: admin.firestore.FieldValue.arrayUnion({pid:id.id,role:"Team Leader"})
+        });      
+      
+      pid=id.id
+      if(!sent){
+        console.log("in returning pid",sent)
 
+        res.send('/project/'+pid+'/edit')
+        sent=true
+        }
+    }
+    
+  },(error) => {
+    console.log(sent)
+    if(!sent){
+      console.log("in 500 err")
+
+      res.status(500).send("Error adding document")
+    }
+    console.error("Error adding document: ", error);
+  })
 }
 
 exports.projectDetails = async (uid) => {
