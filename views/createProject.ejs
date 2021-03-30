@@ -11,29 +11,29 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" ></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 
 
 
   </head>
   <body>
-    <div id="loader" class="loader" style="display: none;"> 
+    <div id="loader" class="loader" style="display: none;">
       <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
      <span class="sr-only">Loading...</span>
     </div>
   </div>
-    
+
 
   <div id="wrapper">
-        	
+
     <div id="subscribeBox">
       <h2><span class="thin">CREATE A</span> PROJECT</h2>
-        
+
         <p id="warning" style="display:none;color:red">*</p>
-    
+
     <form class="subscribeForm" name="Subscription Form" onsubmit ="formSubmit()">
-    
+
       <input name="Project_Name" id="Project_Name" placeholder="Project Name*"  type="text">
       <input name="mailid_1" id="0" placeholder="Enter Team Member 1 Mail ID " type="text">
       <input name="mailid_2" id="1" placeholder="Enter Team Member 2 Mail ID " type="text">
@@ -41,14 +41,14 @@
       <input name="mailid_4" id="3" placeholder="Enter Team Member 4 Mail ID " type="text">
       <input name="mentor_mailid"  id="4"  placeholder="Enter Mentor Mail ID "type="text">
 
-      <input name="git" id="git" placeholder="Add Github Repo Link" type="text">
-      <input name="google_docs" id="google_docs" placeholder="Add Document Link" type="text">
+      <input name="git" id="git" placeholder="Add Github Repository Link" type="text">
+      <input name="google_docs" id="google_docs" placeholder="Add GoogleDocs Link" type="text">
       <input name="slack"  id="slack" placeholder="Add Slack Channel Link"  type="text">
-      
+
       <input id="submit" type="submit" value="Send">
-            
+
     </form>
-            
+
     </div>
   <script src="/js/createproject.js"></script>
 
