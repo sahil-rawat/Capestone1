@@ -57,6 +57,7 @@ function formSubmit() {
   }
   data['progress']=0
   data['submitted']=false
+  data['show']=true
 
   formdata['team']=team
   formdata['data']=data

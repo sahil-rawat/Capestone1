@@ -27,6 +27,16 @@
 	
 
 	<div class="row no-gutters">
+		<nav>
+			<input type="checkbox" id="check">
+			<label for="check" class="checkbtn">
+			  <i class="las la-bars"></i>
+			</label>
+			<label for="logo" class="logo"><a href="/"><a href="/" style="text-decoration: none;">Dashboard</a></a></label>
+			<ul>
+			  <li><a style="text-decoration: none; color: #fff;"  onclick="logout()" >Logout</a></li>
+			</ul>
+		  </nav>
 
 		<div class="col-xl-9">
 			<div class="jumbotron jumbotron-fluid">
@@ -127,6 +137,29 @@
 	
 	
 </body>
+<script>
+
+	function logout() {
+
+	var request=new XMLHttpRequest()
+	request.open("POST", "/logout");
+	request.setRequestHeader("Content-Type","application/json")
+	request.send()
+	request.onreadystatechange = function () {
+  if(request.readyState === XMLHttpRequest.DONE) {
+	  var status = request.status;
+	  if (status === 0 || (status >= 200 && status < 400)) {
+		  window.location=(request.responseText)
+	  }else {
+			alert(request.responseText)
+		}
+  }
+}
+
+	
+	
+	}
+</script>
 <script src="/js/projProgress.js"></script>
 <script>
 	$(document).ready(function(){

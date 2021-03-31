@@ -1,4 +1,3 @@
-
   p.tag {
     border-radius: 10%;
     display: inline;
@@ -10,9 +9,7 @@
   
   p.tag:hover {
     opacity: 0.7;
-  }
-  
-
+  }  
  .tooltiptext {
   display: none;
   background-color: gray;
@@ -22,11 +19,6 @@
   border-radius: 6px;
  
 }
-
-
-
-
-
 
 .navbar-mainbg{
 	background-color: lightgray;
@@ -178,11 +170,6 @@
 		left: -25px;
 	}
 }
-
-
-
-
-
 
 
 
@@ -351,3 +338,66 @@
  .progress-circle.p98 .value-bar { transform: rotate(353deg); }
  .progress-circle.p99 .value-bar { transform: rotate(356deg); }
  .progress-circle.p100 .value-bar { transform: rotate(360deg); }
+
+
+nav
+{
+  background: #0a3d62;
+  height: 80px;
+  width: 100%;
+}
+
+label.logo
+{
+  color: #fff;
+  font-size: 35px;
+  font-weight: 800;
+  line-height: 80px;
+  padding: 0 100px;
+}
+
+nav > ul
+{
+  float: right;
+  margin-right: 20px;
+}
+
+nav > ul > li
+{
+  line-height: 80px;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+nav > ul > li > a
+{
+  color: #fff;
+  text-decoration: none;
+  font-size: 17px;
+  text-transform: uppercase;
+  padding: 7px 13px;
+  border-radius: 3px;
+}
+
+nav > ul > li > a.active, nav > ul > li > a:hover
+{
+  text-decoration: none; 
+  background: #000;
+  transition: 0.5s;
+}
+
+.checkbtn
+{
+  font-size: 30px;
+  color: #fff;
+  float: right;
+  line-height: 80px;
+  margin-right: 40px;
+  cursor: poiter;
+  display: none;
+}
+
+#check
+{
+  display: none;
+}

@@ -18,7 +18,8 @@ router.get('/createproject',function(req,res){
 		if(dashboardDetail){
 			res.render('dashboard',{ 
 				data:JSON.stringify(dashboardDetail),
-				id:req.user.id
+				id:req.user.id,
+				name:req.user.displayName
 			})
 		}
 		else{
@@ -33,15 +34,12 @@ router.get('/createproject',function(req,res){
 
 router.post('/createproject/submit',function(req,res){
 	async function render(){
+
 		data=req.body.data
 		team=req.body.team
 		mentor=req.body.mentor
 		await createProject(data,req.user,team,mentor,res)
-		.then(async (r)=>{
-				console.log(r)
-			}
-		)
-		//res.send(projId)
+		
 
 	}
 	render()
@@ -85,7 +83,6 @@ router.get('/:id',function(req,res){
 	async function render(){
 		isAllowed = await checkProject(req.user.uid,req.params.id)
 		projDetail = await getDetails(req.params.id)
-		console.log(isAllowed && projDetail);
 		if(isAllowed && projDetail){
 			res.render('projDetails',{ 
 				data:JSON.stringify(projDetail),

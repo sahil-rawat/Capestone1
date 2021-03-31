@@ -174,3 +174,81 @@ hr {
 }
 
 
+
+
+nav
+{
+  background: #0a3d62;
+  height: 80px;
+  width: 100%;
+}
+
+label.logo
+{
+  color: #fff;
+  font-size: 35px;
+  font-weight: 800;
+  line-height: 80px;
+  padding: 0 100px;
+}
+
+nav > ul
+{
+  float: right;
+  margin-right: 20px;
+}
+
+nav > ul > li
+{
+  line-height: 80px;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+nav > ul > li > a
+{
+  color: #fff;
+  font-size: 17px;
+  text-transform: uppercase;
+  padding: 7px 13px;
+  border-radius: 3px;
+}
+
+nav >ul >li>a.active, nav>ul>li>a:hover
+{
+  text-decoration: none;
+  background: #000;
+  transition: 0.5s;
+}
+
+.checkbtn
+{
+  font-size: 30px;
+  color: #fff;
+  float: right;
+  line-height: 80px;
+  margin-right: 40px;
+  cursor: poiter;
+  display: none;
+}
+
+#check
+{
+  display: none;
+}
+
+/* For Desktop */
+@media (max-width: 952px)
+{
+  label.logo
+  {
+    font-size: 30px;
+    padding-left: 50px;
+  }
+  
+  nav > ul > li > a
+  {
+    font-size: 16px;
+  }
+}
+

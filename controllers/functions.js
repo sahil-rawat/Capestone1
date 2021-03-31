@@ -42,14 +42,17 @@ exports.createProject= async (data,user,team,mentor,res) => {
           project: admin.firestore.FieldValue.arrayUnion({pid:id.id,role:"Team Member"})
         });     
       } 
-      },(error) => {
+      },async (error) => {
         res.status(404).send(index.toString())
         sent=true
+        var tmp=await db.collection('Projects').doc(id.id).set({
+          show: false
+        },{ merge: true })
+      
         console.log('Error fetching user data:', error);
       });
     })
     if(mentor && !sent){
-      console.log("in mentor",sent)
       admin.auth().getUserByEmail(mentor)
       .then(async (userRecord) => {
         var mentorName=userRecord.displayName;
@@ -66,17 +69,20 @@ exports.createProject= async (data,user,team,mentor,res) => {
           project: admin.firestore.FieldValue.arrayUnion({pid:id.id,role:"Mentor"})
           });     
         } 
-        },(error) => {
+        },async (error) => {
           if(!sent){
             res.status(404).send('4')
             sent=true
+            var tmp=await Project.set({
+              show: false
+            },{ merge: true })
           }
           console.log('Error fetching user data:', error);
         })        
     }
     if(!sent){
 
-      console.log("in team leader",sent)
+
 
       var temp={}
       temp[uname]=[uemail,uid,"Team Leader"]
@@ -98,7 +104,6 @@ exports.createProject= async (data,user,team,mentor,res) => {
       
       pid=id.id
       if(!sent){
-        console.log("in returning pid",sent)
 
         res.send('/project/'+pid+'/edit')
         sent=true
@@ -106,9 +111,7 @@ exports.createProject= async (data,user,team,mentor,res) => {
     }
     
   },(error) => {
-    console.log(sent)
     if(!sent){
-      console.log("in 500 err")
 
       res.status(500).send("Error adding document")
     }
@@ -135,8 +138,9 @@ exports.projectDetails = async (uid) => {
       personDetails.date = doc.data().startDate;
       personDetails.id = doc.data().projid;
       personDetails.submitted = doc.data().submitted;
+      personDetails.show = doc.data().show;
       personDetails.role=projid[i].role
-      if (personDetails.submitted){
+      if (personDetails.submitted && personDetails.show){
         dashDetails.push(personDetails);
       }
       if(!personDetails.submitted && personDetails.role=="Team Leader"){
@@ -146,7 +150,6 @@ exports.projectDetails = async (uid) => {
       
     })
   }
-
   return dashDetails
 }
 

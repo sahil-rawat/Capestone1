@@ -71,5 +71,13 @@ router.post("/login",function(req,res){
 })
 
 
+router.post("/logout",function(req,res){
+
+    firebase.auth().signOut().then(() => {
+        res.send("/")  
+    }).catch((error) => {
+        res.status(401).send(errorMessage)
+      });
+})
 
 module.exports=router 
