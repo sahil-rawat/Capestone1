@@ -112,7 +112,6 @@ exports.createProject= async (data,user,team,mentor,res) => {
     
   },(error) => {
     if(!sent){
-
       res.status(500).send("Error adding document")
     }
     console.error("Error adding document: ", error);
@@ -140,11 +139,19 @@ exports.projectDetails = async (uid) => {
       personDetails.submitted = doc.data().submitted;
       personDetails.show = doc.data().show;
       personDetails.role=projid[i].role
+
       if (personDetails.submitted && personDetails.show){
         dashDetails.push(personDetails);
       }
-      if(!personDetails.submitted && personDetails.role=="Team Leader"){
+      if(!personDetails.submitted && personDetails.role=="Team Leader" && personDetails.show){
         dashDetails.push(personDetails);
+      }
+      if (!personDetails.show){
+        db.collection("Projects").doc(personDetails.id).delete()
+        var obj={pid:personDetails.id,role:personDetails.role}
+        db.collection("Users").doc(uid).update({
+          project: admin.firestore.FieldValue.arrayRemove(obj)
+      })
       }
   
       
