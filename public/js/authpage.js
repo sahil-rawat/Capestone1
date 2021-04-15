@@ -23,9 +23,6 @@ function formSubmitLogin() {
 	  }
   }
 }
-  
-
-
 
 function formSubmitRegister() {
 	event.preventDefault();

@@ -1,8 +1,10 @@
-
-function notRegistered(index){
-  document.getElementById(index).style.border="1px solid red"
+function notRegistered(val){
+  console.log(typeof val)
+  console.log(val[0])
   
-  document.getElementById('warning').innerHTML='* "'+document.getElementById(index).value + '" is not registered'
+  document.getElementById(val[0]).style.border="1px solid red"
+  
+  document.getElementById('warning').innerHTML='* "'+document.getElementById(val[0]).value + '" is '+val[1]
   document.getElementById('warning').style.display='block'
 }
 
@@ -23,6 +25,7 @@ function clear(){
 }
 
 function formSubmit() {
+  document.getElementById("loader").style.display="block"
   event.preventDefault();
   clear()
   var formdata={}
@@ -70,17 +73,14 @@ function formSubmit() {
   request.send(dataJson);
 
   request.onreadystatechange = function () {
-    document.getElementById("loader").style.display="block"
-    console.log("object");
-	if(request.readyState === XMLHttpRequest.DONE) {
+    if(request.readyState === XMLHttpRequest.DONE) {
     document.getElementById("loader").style.display="none" 
 		var status = request.status;
 		if (status === 0 || (status >= 200 && status < 400)) {
       window.location=(request.responseText)
 		} else {
-      console.log(request.responseText);
       if(request.status==404){
-        notRegistered(request.responseText)
+        notRegistered(JSON.parse(request.responseText))
       }else{
 			alert("Something Went Wrong!! Please Try again Later!")
       }
