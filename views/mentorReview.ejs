@@ -1,0 +1,327 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>WMS</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/css/mentorReview.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+	
+
+
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		
+
+</head>
+
+<body>
+
+	<% let db=JSON.parse(data) %>
+	
+
+	<div class="row no-gutters">
+		<nav>
+			<input type="checkbox" id="check">
+			<label for="check" class="checkbtn">
+			  <i class="las la-bars"></i>
+			</label>
+			<label for="logo" class="logo"><a href="/"><a href="/" style="text-decoration: none;">WMS</a></a></label>
+			<ul>
+			  <li><a style="text-decoration: none; color: #fff;"  onclick="logout()" >Logout</a></li>
+			</ul>
+		  </nav>
+
+		<div class="col-xl-9">
+			<div class="jumbotron jumbotron-fluid">
+				<div class="container">
+					<h2  class="display-5">
+						Project Name : <%=db['project_name']%>
+					</h2>
+					<hr class="my-2">
+					<p class="card-text">
+						<% if (db['duration']) { %>
+							Duration : <%=db['duration']%> <br>
+						<% } %>
+						Team:
+						<% Object.keys(db['team']).forEach(element => { %>
+								<img onmouseover="showname()" onmouseout="hidename()" name="<%= element %>" src="https://ui-avatars.com/api/?background=random&rounded=true&size=32&name=<%= element.split(" ").join("+") %> %>">  
+								<span id="<%= element %>" class="tooltiptext"><%= element %> </span>
+						<% }) %>
+						<br>
+						<% if (db['mentor']) { %>
+							Mentor:
+							<% Object.keys(db['mentor']).forEach(element => { %>
+								<img onmouseover="showname()" onmouseout="hidename()" name="<%= element %>" src="https://ui-avatars.com/api/?background=random&rounded=true&size=32&name=<%= element.split(" ").join("+") %> %>">  
+								<span id="<%= element %>" class="tooltiptext"><%= element %> </span>
+						<% }) %>
+						<% } %>
+					</p>	
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-3 d-none d-md-block">
+			<div class="card-body">
+				<div class="row">
+
+					<div class="col-xl-6">
+						<div class="progress-circle over50 p100">
+							<span>100%</span>
+							<div class="left-half-clipper">
+								<div class="first50-bar"></div>
+								<div class="value-bar"></div>
+							</div>	
+				 		</div>
+						Assigned Progress
+					</div>
+
+					<div class="col-xl-6">
+						<div class="progress-circle p<%= db.progress %>">
+							<span><%= db.progress %>%</span>
+							<div class="left-half-clipper">
+								<div class="first50-bar"></div>
+								<div class="value-bar"></div>
+							</div>
+				 		</div>
+				 		Overall Progress
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% if (db['git'] || db['doc'] || db['slack']) { %> 
+	<div class="no-gutters">
+		<div class="col-xl-12">
+			<div class="card text-left">
+				<div class="card-body">
+					<% if (db['git']) { %>
+						
+						<a class="btn btn-secondary" href=<%=db['git']%> >
+							<i class="bi bi-github" aria-hidden="true"></i> Go To Git
+						</a>
+					<% } %>
+					<% if (db['doc']) { %>
+						<a class="btn btn-primary" href=<%=db['doc']%> >
+							<i class="bi bi-file-earmark-word" aria-hidden="true"></i> Go To Doc 
+						</a>
+					<% } %>
+					<% if (db['slack']) { %>
+						<a class="btn btn-warning" href=<%=db['slack']%> >
+							<i class="bi bi-slack" aria-hidden="true"></i> Go To Slack
+						</a>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</div>
+	<% } %>
+
+
+	<div class="no-gutters">
+		<div class="col-xl-12">
+			<div class="card text-left">
+				<div class="card-body" style="padding: 20px 0px;">
+					<nav class="navbar navbar-expand-custom navbar-mainbg">
+					
+						<div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+								<ul class="navbar-nav">
+										<div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+										
+										<li class="nav-item">
+												<a class="nav-link" href="/project/<%=db['projid']%>">Project Details</a>
+										</li>
+										<li class="nav-item">
+												<a class="nav-link" href="/project/<%=db['projid']%>/progress">Project Progress</a>
+										</li>
+										<li class="nav-item active">
+												<a class="nav-link" href="/project/<%=db['projid']%>/review">Mentor Review<div class="d-none d-sm-block">
+													
+												</div></a>
+										</li>
+								</ul>
+						</div>
+				</nav>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="container bootdey">
+        <div class="col-md-12 bootstrap snippets">
+        <div class="panel">
+          <div class="panel-body">
+            <textarea class="form-control" rows="2" placeholder="What are you thinking?"></textarea>
+            <div class="mar-top clearfix">
+              <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i> Share</button>
+              <a class="btn btn-trans btn-icon fa fa-video-camera add-tooltip" href="#"></a>
+              <a class="btn btn-trans btn-icon fa fa-camera add-tooltip" href="#"></a>
+              <a class="btn btn-trans btn-icon fa fa-file add-tooltip" href="#"></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+            <div class="panel-body">
+            <!-- Newsfeed Content -->
+            <!--===================================================-->
+            <div class="media-block">
+              <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
+              <div class="media-body">
+                <div class="mar-btm">
+                  <a href="#" class="btn-link text-semibold media-heading box-inline">Lisa D.</a>
+                  <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - From Mobile - 11 min ago</p>
+                </div>
+                <p>consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+                <div class="pad-ver">
+                  <div class="btn-group">
+                    <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
+                    <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+                  </div>
+                  <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
+                </div>
+                <hr>
+        
+                <!-- Comments -->
+                <div>
+                  <div class="media-block">
+                    <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="https://bootdey.com/img/Content/avatar/avatar2.png"></a>
+                    <div class="media-body">
+                      <div class="mar-btm">
+                        <a href="#" class="btn-link text-semibold media-heading box-inline">Bobby Marz</a>
+                        <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - From Mobile - 7 min ago</p>
+                      </div>
+                      <p>Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+                      <div class="pad-ver">
+                        <div class="btn-group">
+                          <a class="btn btn-sm btn-default btn-hover-success active" href="#"><i class="fa fa-thumbs-up"></i> You Like it</a>
+                          <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+                        </div>
+                        <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
+                      </div>
+                      <hr>
+                    </div>
+                  </div>
+        
+                  <div class="media-block">
+                    <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="https://bootdey.com/img/Content/avatar/avatar3.png">
+                    </a>
+                    <div class="media-body">
+                      <div class="mar-btm">
+                        <a href="#" class="btn-link text-semibold media-heading box-inline">Lucy Moon</a>
+                        <p class="text-muted text-sm"><i class="fa fa-globe fa-lg"></i> - From Web - 2 min ago</p>
+                      </div>
+                      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate ?</p>
+                      <div class="pad-ver">
+                        <div class="btn-group">
+                          <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
+                          <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+                        </div>
+                        <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
+                      </div>
+                      <hr>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--===================================================-->
+            <!-- End Newsfeed Content -->
+        
+        
+            <!-- Newsfeed Content -->
+            <!--===================================================-->
+            <div class="media-block pad-all">
+              <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
+              <div class="media-body">
+                <div class="mar-btm">
+                  <a href="#" class="btn-link text-semibold media-heading box-inline">John Doe</a>
+                  <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - From Mobile - 11 min ago</p>
+                </div>
+                <p>Lorem ipsum dolor sit amet.</p>
+                <img class="img-responsive thumbnail" src="https://via.placeholder.com/400x300" alt="Image">
+                <div class="pad-ver">
+                  <span class="tag tag-sm"><i class="fa fa-heart text-danger"></i> 250 Likes</span>
+                  <div class="btn-group">
+                    <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
+                    <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+                  </div>
+                  <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
+                </div>
+                <hr>
+        
+                <!-- Comments -->
+                <div>
+                  <div class="media-block pad-all">
+                    <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="https://bootdey.com/img/Content/avatar/avatar2.png"></a>
+                    <div class="media-body">
+                      <div class="mar-btm">
+                        <a href="#" class="btn-link text-semibold media-heading box-inline">Maria Leanz</a>
+                        <p class="text-muted text-sm"><i class="fa fa-globe fa-lg"></i> - From Web - 2 min ago</p>
+                      </div>
+                      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate ?</p>
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
+                          <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+                        </div>
+                        <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--===================================================-->
+            <!-- End Newsfeed Content -->
+          </div>
+        </div>
+        </div>
+        </div>
+
+	
+	
+</body>
+<script>
+
+	function logout() {
+
+	var request=new XMLHttpRequest()
+	request.open("POST", "/logout");
+	request.setRequestHeader("Content-Type","application/json")
+	request.send()
+	request.onreadystatechange = function () {
+  if(request.readyState === XMLHttpRequest.DONE) {
+	  var status = request.status;
+	  if (status === 0 || (status >= 200 && status < 400)) {
+		  window.location=(request.responseText)
+	  }else {
+			alert(request.responseText)
+		}
+  }
+}
+
+	
+	
+	}
+</script>
+<script src="/js/mentorReview.js"></script>
+<script>
+	$(document).ready(function(){
+		setTimeout(function(){ test(); });
+	});
+</script>
+
+
+
+
+</html>
