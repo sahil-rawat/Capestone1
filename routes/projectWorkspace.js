@@ -113,4 +113,22 @@ router.get('/:id/progress',function(req,res){
 	render()
 })
 
+
+router.get('/:id/review',function(req,res){
+	async function render(){
+		isAllowed = await checkProject(req.user.uid,req.params.id)
+		projDetail = await getDetails(req.params.id)
+		if(isAllowed && projDetail){
+			res.render('mentorReview',{ 
+				data:JSON.stringify(projDetail),
+				projid:req.params.id
+			})
+		}
+		else{
+			res.render('404')
+		}
+	}
+	render()
+})
+
 module.exports = router;

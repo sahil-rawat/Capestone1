@@ -26,7 +26,7 @@
 	<% let db=JSON.parse(data) %>
 	
 
-	<div class="row no-gutters">
+	<div class="row no-gutters jumbotron" style="padding: 0px;">
 		<nav>
 			<input type="checkbox" id="check">
 			<label for="check" class="checkbtn">
@@ -67,10 +67,32 @@
 			</div>
 		</div>
 
-		<div class="col-xl-3">
-			<div class=" text-left">
-				<div class="card-body">
-					 
+		<div class="col-xl-3 d-none d-md-block">
+			<div class="card-body">
+				<div class="row">
+
+					<div class="col-xl-6">
+						<div class="progress-circle over50 p100">
+							<span>100%</span>
+							<div class="left-half-clipper">
+								<div class="first50-bar"></div>
+								<div class="value-bar"></div>
+							</div>	
+				 		</div>
+						Assigned Progress
+					</div>
+
+					<div class="col-xl-6">
+						<div class="progress-circle p<%= db.progress %>">
+							<span><%= db.progress %>%</span>
+							<div class="left-half-clipper">
+								<div class="first50-bar"></div>
+								<div class="value-bar"></div>
+							</div>
+				 		</div>
+				 		Overall Progress
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -121,7 +143,7 @@
 												<a class="nav-link" href="/project/<%=db['projid']%>/progress">Project Progress</a>
 										</li>
 										<li class="nav-item">
-												<a class="nav-link" href="javascript:void(0);">Mentor Review<div class="d-none d-sm-block">
+												<a class="nav-link" href="/project/<%=db['projid']%>/review">Mentor Review<div class="d-none d-sm-block">
 													
 												</div></a>
 										</li>
