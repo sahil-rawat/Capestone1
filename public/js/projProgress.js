@@ -1,6 +1,5 @@
 function test(){
 	var tabsNewAnim = $('#navbarSupportedContent');
-	var selectorNewAnim = $('#navbarSupportedContent').find('li').length;
 	var activeItemNewAnim = tabsNewAnim.find('.active');
 	var activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
 	var activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
@@ -26,4 +25,18 @@ function hidename(){
 	id=event.target.name
 	document.getElementById(id).style.display='none'
 }
+
+console.dir(JSON.parse(document.getElementById('pp').value))
+var pp=JSON.parse(document.getElementById('pp').value)
+Object.keys(pp).forEach(e=>{
+
+var KanbanTest = new jKanban({
+	element : '#myKanban'+e,
+	widthBoard : '100%',  
+	responsivePercentage: true,
+	
+	boards  :pp[e]
+});
+
+})
 

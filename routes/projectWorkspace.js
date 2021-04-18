@@ -13,7 +13,7 @@ router.get('/createproject',function(req,res){
  router.get('/dashboard',function(req,res){
 
 	async function render(){
-		uid=req.user.uid
+	    uid=req.user.uid
 		const dashboardDetail = await projectDetails(uid);
 		if(dashboardDetail){
 			res.render('dashboard',{ 
@@ -27,6 +27,7 @@ router.get('/createproject',function(req,res){
 		}
 	}
 	render();
+
 
  })
 
@@ -72,6 +73,56 @@ router.get('/:id/edit',function(req,res){
 router.post('/:id/submit',function(req,res){
 	async function render(){
 		data=req.body
+		var temp={}
+		Object.keys(data.task.subtask).forEach(e=>{
+			var item=[]
+			if(data.task.subtask[e].subtask){
+				Object.keys(data.task.subtask[e].subtask).forEach(j=>{
+					item.push({
+						'id':'task-'+j,
+						'class' : ['drag-item'],
+						'title':data.task.subtask[e].subtask[j].name+'<br><span>Progress : 0%</span><br><button class="btn btn-secondary">comment</button>'
+					})
+
+				})
+			}else{
+				item.push({
+					'id':'task-1',
+					'class' : ['drag-item'],
+					'title':data.task.subtask[e].name+'<br><span>Progress : 0%</span><br><button class="btn btn-secondary">comment</button>'
+				})
+			}
+				temp[e]=[
+					{
+						'id' : '_backlog',
+						'title'  : 'Backlog',
+						'class'  : 'backlog',
+						'item'  : item
+					},
+					{
+						'id' : '_inprogress',
+						'title'  : 'In Progress',
+						'class' : 'inprogress',
+						'item':[]
+						
+					},
+					{
+						'id' : '_review',
+						'title'  : 'Mentor Review',
+						'class' : 'review',
+						'item':[]
+						
+					},
+					{
+						'id' : '_completed',
+						'title'  : 'Completed',
+						'class' : 'completed',
+						'item':[]
+						
+					},
+				]
+			})
+  		data['pp']=temp
 		data['submitted']=true
 		projDetail = await setDetails(data,req.params.id)
 		res.send(req.params.id)
@@ -103,7 +154,8 @@ router.get('/:id/progress',function(req,res){
 		if(isAllowed && projDetail){
 			res.render('projProgress',{ 
 				data:JSON.stringify(projDetail),
-				projid:req.params.id
+				projid:req.params.id,
+				pp:JSON.stringify(projDetail['pp'])
 			})
 		}
 		else{

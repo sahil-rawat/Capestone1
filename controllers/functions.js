@@ -12,6 +12,9 @@ exports.getDetails= async id=> {
 exports.setDetails= async (data,id) =>{
   var skill= data.task.skills.split(' ')
   data.task['skills']=skill.splice(0,skill.length-1)
+  
+
+
   const Project = db.collection('Projects').doc(id)
   await Project.set(data, { merge: true })
 }

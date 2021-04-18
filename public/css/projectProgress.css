@@ -401,3 +401,21 @@ nav > ul > li > a.active, nav > ul > li > a:hover
 {
   display: none;
 }
+
+  .backlog {
+	background-color: #EF767A;
+  }
+
+  .inprogress {
+	background-color: #26C485;
+  }
+
+  .review {
+	background-color: #F4F482;
+  }
+
+  .completed {
+	background-color: #166088;
+  }
+
+  
