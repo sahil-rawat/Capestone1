@@ -5,7 +5,7 @@ const {getDetails,setDetails,createProject, projectDetails, checkProject,progres
 
 
 
-//router.use(isAuthenticated)
+router.use(isAuthenticated)
 router.get('/createproject',function(req,res){
     res.render('createProject')
  })
@@ -47,7 +47,7 @@ router.post('/createproject/submit',function(req,res){
 
 router.get('/:id/edit',function(req,res){
 	async function render(){
-		isAllowed = //await checkProject(req.user.uid,req.params.id)
+		isAllowed = await checkProject(req.user.uid,req.params.id)
 		projDetail = await getDetails(req.params.id)
 		if(isAllowed && projDetail){
 			if(!projDetail.submitted){
@@ -137,7 +137,7 @@ router.post('/:id/submit',function(req,res){
 
 router.get('/:id',function(req,res){
 	async function render(){
-		isAllowed = //await checkProject(req.user.uid,req.params.id)
+		isAllowed = await checkProject(req.user.uid,req.params.id)
 		projDetail = await getDetails(req.params.id)
 		if(isAllowed && projDetail){
 			res.render('projDetails',{ 
@@ -154,7 +154,7 @@ router.get('/:id',function(req,res){
 
 router.get('/:id/progress',function(req,res){
 	async function render(){
-		isAllowed = //await checkProject(req.user.uid,req.params.id)
+		isAllowed = await checkProject(req.user.uid,req.params.id)
 		projDetail = await getDetails(req.params.id)
 		if(isAllowed && projDetail){
 			res.render('projProgress',{ 
@@ -185,7 +185,7 @@ router.post('/:id/progress/update',function(req,res){
 
 router.get('/:id/review',function(req,res){
 	async function render(){
-		isAllowed = //await checkProject(req.user.uid,req.params.id)
+		isAllowed = await checkProject(req.user.uid,req.params.id)
 		projDetail = await getDetails(req.params.id)
 		if(isAllowed && projDetail){
 			res.render('mentorReview',{ 
