@@ -1,3 +1,6 @@
+p {
+	margin-left: 0.5%;
+}
 p.tag {
     border-radius: 10%;
     display: inline;
@@ -5,6 +8,7 @@ p.tag {
     background: #add;
     padding: 5px 10px;
     margin: 4px;
+	
   }
   
   p.tag:hover {
@@ -442,7 +446,7 @@ body{
     box-shadow: 0 2px 0 rgba(0,0,0,0.075);
     border-radius: 0;
     border: 0;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .panel .panel-footer, .panel>:last-child {
@@ -518,13 +522,10 @@ body{
 }
 
 .btn-icon {
-    padding-left: 9px;
-    padding-right: 9px;
+    padding-left: 7px;
+    padding-right: 7px;
 }
 
-.btn-sm, .btn-group-sm>.btn, .btn-icon.btn-sm {
-    padding: 5px 10px !important;
-}
 
 .mar-top {
     margin-top: 15px;
