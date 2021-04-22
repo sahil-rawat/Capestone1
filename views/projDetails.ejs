@@ -28,15 +28,14 @@
 			<label for="check" class="checkbtn">
 			  <i class="las la-bars"></i>
 			</label>
-			<label for="logo" class="logo"><a href="/" style="text-decoration: none;">WMS</a></label>
+			<label for="logo" class="logo"><a href="/"><a href="/" style="text-decoration: none;">WMS</a></a></label>
 			<ul>
-			  <li><a style="text-decoration: none; color: #fff;" onclick="logout()" >Logout</a></li>
-
-			  
+			  <li><a style="text-decoration: none; color: #fff;"  onclick="logout()" >Logout</a></li>
 			</ul>
 		  </nav>
+
 		<div class="col-xl-9">
-			<div class="jumbotron">
+			<div class="jumbotron ">
 				<div class="container">
 					<h2  class="display-5">
 						Project Name : <%=db['project_name']%>
@@ -44,7 +43,7 @@
 					<hr class="my-2">
 					<p class="card-text">
 						<% if (db['duration']) { %>
-							Duration : <%=db['duration']%> <br>
+							Duration : <%=db['duration']%> Days <br>
 						<% } %>
 						
 						Team:
@@ -70,20 +69,11 @@
 			<div class="card-body">
 				<div class="row">
 
-					<div class="col-xl-6">
-						<div class="progress-circle over50 p100">
-							<span>100%</span>
-							<div class="left-half-clipper">
-								<div class="first50-bar"></div>
-								<div class="value-bar"></div>
-							</div>	
-				 		</div>
-						Assigned Progress
+					<div class="col-xl-3">	
 					</div>
-
 					<div class="col-xl-6">
-						<div class="progress-circle p<%= db.progress %>">
-							<span><%= db.progress %>%</span>
+						<div class="progress-circle p30">
+							<span id="_progress"><%= ((db.progress/db.totalprogress)*100).toFixed(2) %>%</span>
 							<div class="left-half-clipper">
 								<div class="first50-bar"></div>
 								<div class="value-bar"></div>
@@ -243,6 +233,9 @@
 					<h1 class="display-5">
 						<%= db['task']['subtask'][i]['subtask'][j].name %>
 					</h1>
+					<h6 >
+						Duration: <%= db['task']['subtask'][i]['subtask'][j].duration %> Days
+					</h6>
 						<hr class="my-2">
 					<p>
 						<%= db['task']['subtask'][i]['subtask'][j].description %>
@@ -281,14 +274,14 @@
 	request.setRequestHeader("Content-Type","application/json")
 	request.send()
 	request.onreadystatechange = function () {
-  if(request.readyState === XMLHttpRequest.DONE) {
-	  var status = request.status;
-	  if (status === 0 || (status >= 200 && status < 400)) {
-		  window.location=(request.responseText)
-	  }else {
-			alert(request.responseText)
-		}
-  }
+  		if(request.readyState === XMLHttpRequest.DONE) {
+			var status = request.status;
+			if (status === 0 || (status >= 200 && status < 400)) {
+				window.location=(request.responseText)
+			}else {
+					alert(request.responseText)
+				}
+  		}
 }
 
 	
