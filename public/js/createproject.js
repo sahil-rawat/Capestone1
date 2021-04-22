@@ -62,8 +62,10 @@ function formSubmit() {
   data['submitted']=false
   data['show']=true
 
+
   formdata['team']=team
   formdata['data']=data
+  
 
   var dataJson=JSON.stringify(formdata)
 
