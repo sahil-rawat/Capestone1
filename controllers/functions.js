@@ -5,18 +5,74 @@ var dateFormat = require("dateformat");
 const db=fs.firestore()
 
 exports.getDetails= async id=> {
+  var duration=0
   const Project = (await db.collection('Projects').doc(id).get()).data()
+  // Object.keys(Project.task['subtask']).forEach(e=>{
+  //   Object.keys(Project.task['subtask'][e]['subtask']).forEach(j=>{
+  //     duration+=parseInt(Project.task['subtask'][e]['subtask'][j]['duration'])
+  //     console.log(duration)
+  //   })
+  // })
+  
   return Project
 }
-  
+
+
 exports.setDetails= async (data,id) =>{
   var skill= data.task.skills.split(' ')
   data.task['skills']=skill.splice(0,skill.length-1)
-  
-
 
   const Project = db.collection('Projects').doc(id)
   await Project.set(data, { merge: true })
+
+  const pdata=(await Project.get()).data()
+
+  var duration=0;
+
+  Object.keys(pdata.task['subtask']).forEach(e=>{
+    if(pdata.task['subtask'][e]['subtask']){
+      Object.keys(pdata.task['subtask'][e]['subtask']).forEach(j=>{
+        duration+=parseInt(pdata.task['subtask'][e]['subtask'][j]['duration'])    
+      })
+    }
+  })
+  await Project.set({'duration':duration}, { merge: true })
+}
+
+
+exports.progressUpdate= async (data,id,res) =>{
+
+  const Project = db.collection('Projects').doc(id)
+  var tempprog=0
+  var totalprogress=0
+  
+  await Project.set({
+    pp:data,
+  },{ merge: true })
+
+  await Project.get().then(val =>{
+    pupdate=val.data()
+    totalprogress=pupdate.totalprogress
+    Object.keys(pupdate.pp).forEach(i=>{
+      pupdate.pp[i].forEach(val=>{
+        if(val.id=='_backlog'){
+          tempprog+=val.prog*0
+        }else if(val.id=='_inprogress'){
+          tempprog+=val.prog*30
+        }else if(val.id=='_review'){
+          tempprog+=val.prog*60
+        }else if(val.id=='_completed'){
+          tempprog+=val.prog*100
+        }
+      })
+    })
+  })
+
+  await Project.set({
+    progress:tempprog,
+  },{ merge: true })
+  res.send(((tempprog/totalprogress)*100).toFixed(0).toString())
+
 }
 
 exports.projectDetails = async (uid) => {

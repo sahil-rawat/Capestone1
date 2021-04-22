@@ -40,7 +40,7 @@
 		  </nav>
 
 		<div class="col-xl-9">
-			<div class="jumbotron jumbotron-fluid">
+			<div class="jumbotron">
 				<div class="container">
 					<h2  class="display-5">
 						Project Name : <%=db['project_name']%>
@@ -48,7 +48,7 @@
 					<hr class="my-2">
 					<p class="card-text">
 						<% if (db['duration']) { %>
-							Duration : <%=db['duration']%> <br>
+							Duration : <%=db['duration']%> Days <br>
 						<% } %>
 						Team:
 						<% Object.keys(db['team']).forEach(element => { %>
@@ -72,20 +72,16 @@
 			<div class="card-body">
 				<div class="row">
 
-					<div class="col-xl-6">
-						<div class="progress-circle over50 p100">
-							<span>100%</span>
-							<div class="left-half-clipper">
-								<div class="first50-bar"></div>
-								<div class="value-bar"></div>
-							</div>	
-				 		</div>
-						Assigned Progress
+					<div class="col-xl-3">	
 					</div>
-
 					<div class="col-xl-6">
-						<div class="progress-circle p<%= db.progress %>">
-							<span><%= db.progress %>%</span>
+						<% if( parseInt(((db.progress/db.totalprogress)*100)) > 50 ){ %>
+							<div class="progress-circle over50 p<%= ((db.progress/db.totalprogress)*100).toFixed(0) %>">
+						<% } %>
+						<% if( parseInt(((db.progress/db.totalprogress)*100)) < 50 ) { %>
+							<div class="progress-circle p<%= ((db.progress/db.totalprogress)*100).toFixed(0) %>">
+						<% } %>
+							<span id="_progress"><%= ((db.progress/db.totalprogress)*100).toFixed(2) %>%</span>
 							<div class="left-half-clipper">
 								<div class="first50-bar"></div>
 								<div class="value-bar"></div>
@@ -93,7 +89,6 @@
 				 		</div>
 				 		Overall Progress
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -157,16 +152,27 @@
 		</div>
 	</div>
 	<% Object.keys(JSON.parse(pp)).forEach(e=>{ %>
-	<div class="container-fluid">
-		<div class="row jumbotron" style="padding: 0px;background-color: #E2E4E6;">
-			 <div class="col-md-12">
-					<div id="myKanban<%= e %>"></div>					
+		<div class="row" style="padding: 10px">
+			 <div class="col-md-12" >
+				<div id="collapsibleTabs">
+					<div class="tab">
+						<input type="checkbox" name="tabCheckBox-<%= e %>" id="tabCheckBox-<%= e %>">
+						<label for="tabCheckBox-<%= e %>"><%= db['task']['subtask'][e].name %><span> </span>
+						</label>
+						<div class="tabContent">
+							<div id="myKanban<%= e %>" ></div>
+
+						</div>
+					</div>
 			 </div>
+			 
 		</div>
  </div>
  <% }) %>
+ 
 
  <input id='pp' type=hidden value="<%= pp %>">
+ <input id='pid' type=hidden value="<%= projid %>">
 	
 </body>
 <script>
@@ -187,9 +193,6 @@
 		}
   }
 }
-
-	
-	
 	}
 </script>
 <script src='https://gitcdn.xyz/repo/riktar/jkanban/master/dist/jkanban.min.js'></script>
@@ -197,6 +200,14 @@
 
 <script>
 	$(document).ready(function(){
+		$('.progressWrapper progress').each(function(){
+			var prgsVal = $(this).data('value');
+			var maxN = $(this).attr('max');
+			var pop = prgsVal/maxN * 100
+			
+			$(this).prev().css('left', pop + '%').text(prgsVal);
+			$(this).val(prgsVal);
+		  });
 		setTimeout(function(){ test(); });
 	});
 </script>
