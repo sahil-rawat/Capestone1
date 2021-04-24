@@ -1,5 +1,6 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700);
-
+p {
+	margin-left: 0.5%;
+}
 p.tag {
     border-radius: 10%;
     display: inline;
@@ -9,10 +10,11 @@ p.tag {
     margin: 4px;
   }
   
-  p.tag:hover {
+p.tag:hover {
     opacity: 0.7;
-  }  
- .tooltiptext {
+}  
+
+.tooltiptext {
   display: none;
   background-color: gray;
   color: #fff;
@@ -140,6 +142,7 @@ p.tag {
 	}
 }
 
+
 @media (max-width: 991px){
 	#navbarSupportedContent ul li a{
 		padding: 12px 30px;
@@ -171,6 +174,7 @@ p.tag {
 		left: -25px;
 	}
 }
+
 
 nav
 {
@@ -234,17 +238,161 @@ nav > ul > li > a.active, nav > ul > li > a:hover
   display: none;
 }
 
+body{
+    background:#ebeef0;
+}
+
+.img-sm {
+    width: 46px;
+    height: 46px;
+}
+
+.panel {
+    box-shadow: 0 2px 0 rgba(0,0,0,0.075);
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 12px;
+}
+
+.panel .panel-footer, .panel>:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.panel .panel-heading, .panel>:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.panel-body {
+    padding: 25px 20px;
+}
+
+
+.media-block .media-left {
+    display: block;
+    float: left
+}
+
+.media-block .media-right {
+    float: right
+}
+
+.media-block .media-body {
+    display: block;
+    overflow: hidden;
+    width: auto
+}
+
+.middle .media-left,
+.middle .media-right,
+.middle .media-body {
+    vertical-align: middle
+}
+
+.thumbnail {
+    border-radius: 0;
+    border-color: #e9e9e9
+}
+
+.tag.tag-sm, .btn-group-sm>.tag {
+    padding: 5px 10px;
+}
+
+.tag:not(.label) {
+    background-color: #fff;
+    padding: 6px 12px;
+    border-radius: 2px;
+    border: 1px solid #cdd6e1;
+    font-size: 12px;
+    line-height: 1.42857;
+    vertical-align: middle;
+    -webkit-transition: all .15s;
+    transition: all .15s;
+}
+.text-muted, a.text-muted:hover, a.text-muted:focus {
+    color: #acacac;
+}
+.text-sm {
+    font-size: 0.9em;
+}
+.text-5x, .text-4x, .text-5x, .text-2x, .text-lg, .text-sm, .text-xs {
+    line-height: 1.25;
+}
+
+.btn-trans {
+    background-color: transparent;
+    border-color: transparent;
+    color: #929292;
+}
+
+.btn-icon {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+
+.mar-top {
+    margin-top: 15px;
+}
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+	outline: 0;
+	box-shadow: none;
+	border: 0 !important;
+	background: #fff;
+	background-image: none;
+  }
+  .select {
+	position: relative;
+	display: flex;
+	width: 20em;
+	height: 2em;
+	line-height: 2;
+	background: #fff;
+	overflow: hidden;
+	border-radius: .25em;
+  }
+select {
+	flex: 1;
+	padding: 0 .5em;
+	color: #007bff;
+	cursor: pointer;
+}
+  
+.select::after {
+	content: '\25BC';
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0 1em;
+	background: #fff;
+	cursor: pointer;
+	pointer-events: none;
+	-webkit-transition: .25s all ease;
+	-o-transition: .25s all ease;
+	transition: .25s all ease;
+  }
+
+  .select:hover::after {
+	color: #007bff;
+  }
+  
 .progress-circle {
 	font-size: 20px;
 	margin: 20px;
-	position: relative; /* so that children can be absolutely positioned */
+	position: relative; 
 	padding: 0;
 	width: 5em;
 	height: 5em;
 	background-color: #F2E9E1; 
 	border-radius: 50%;
 	line-height: 5em;
-	   float: left;
+	float: left;
  }
  
  .progress-circle:after{
@@ -272,7 +420,7 @@ nav > ul > li > a.active, nav > ul > li > a:hover
  }
  .left-half-clipper { 
 
-  border-radius: 50%;
+	border-radius: 50%;
 	width: 5em;
 	height: 5em;
 	position: absolute; 
@@ -289,7 +437,6 @@ nav > ul > li > a.active, nav > ul > li > a:hover
 	border-radius: 50%;
 	border: 0.45em solid #53777A; 
 	box-sizing: border-box;
-   
  }
  .progress-circle.over50 .first50-bar {
 	position: absolute;
@@ -403,7 +550,6 @@ nav > ul > li > a.active, nav > ul > li > a:hover
  .progress-circle.p99 .value-bar { transform: rotate(356deg); }
  .progress-circle.p100 .value-bar { transform: rotate(360deg); }
  
- 
  .hidden {
    visibility: hidden;
    width: 0;
@@ -475,6 +621,8 @@ nav > ul > li > a.active, nav > ul > li > a:hover
  .progress-bar--yellow .progress-bar--inner {
    background-color: #f7a81d;
  }
+ 
+ @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700);
  
  .wrap {
    max-width: 600px;

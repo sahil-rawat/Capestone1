@@ -1,10 +1,9 @@
-
-
 input {
   border: 2px solid #eeeeee;
   height: 46px;
   width: 100%;
-  margin: 10px 0 0 0;
+  margin: 0;
+  margin-top:10px;
   padding: 1%;
   font-size: 1.2em;
   line-height: 1.5em;
@@ -15,8 +14,6 @@ input {
   font-family: source-sans-pro,sans-serif;
 }
 
-
-
 #submit {
   display: block;
   border: 0;
@@ -24,13 +21,11 @@ input {
   height: 60px;
   margin: 30px auto 0;
   background: #eee;
-  color: #333;
+  color: #333333;
   text-align: center;
   transition: background, color, .5s ease 0;
-  border: 0;
   font-size: 1.2em;
   line-height: 1.5em;
-  color: #333333;
   letter-spacing: .01em;
   font-style: normal;
   font-weight: 300;
@@ -46,7 +41,7 @@ input {
 
 body {
   background-color: #e6e6e6;
-  margin: 0 auto;
+  margin: 0 auto 0 auto;
 }
 
 #wrapper {
@@ -91,7 +86,7 @@ a {
 
 a:hover {
   text-decoration: none;
-  color: #C43C3E;
+  color: #333333;
 }
 
 p {
@@ -106,8 +101,6 @@ p {
   font-weight: 300;
   font-family: source-sans-pro;
 }
-
-
 
 .loader{
   

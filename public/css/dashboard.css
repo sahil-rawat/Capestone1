@@ -30,31 +30,31 @@ ul li{
 }
 
 #circle1{
-    background-color: #6b705c;
+    background-color: #fa3734;
     height: 20px;
     width: 20px;
     border-radius: 50%;
 }
 #circle2{
-    background-color: #fca311;
+    background-color: #f7a900;
     height: 20px;
     width: 20px;
     border-radius: 50%;
 }
 #circle3{
-    background-color: #d62828;
+    background-color: #1c5e1f;
     height: 20px;
     width: 20px;
     border-radius: 50%;
 }
 #circle4{
-    background-color: #003049;
+    background-color: #1b2759;
     height: 20px;
     width: 20px;
     border-radius: 50%;
 }
 #circle5{
-    background-color: #7400b8;
+    background-color: #611dad;
     height: 20px;
     width: 20px;
     border-radius: 50%;
@@ -84,11 +84,11 @@ a:hover{
 }
 
 
-.project{
+#project{
     color: darkblue;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .header ul li{
@@ -102,7 +102,7 @@ hr {
     border:black;
     border-top: 3px double #333;
     color: #333;
-    overflow: visible;
+    overflow: hidden;
     text-align: center;
     text-shadow: black;
     height: 10px;
@@ -157,7 +157,7 @@ hr {
 .button {
     border-color:#232D64 ;
     color: #232D64;
-    width: 13rem;
+    width: 100%;
     border: 2px solid;
     padding: 8px 13px;
     text-align: center;
@@ -173,4 +173,77 @@ hr {
     color: white;
 }
 
+nav
+{
+  background: #0a3d62;
+  height: 80px;
+  width: 100%;
+}
 
+label.logo
+{
+  color: #fff;
+  font-size: 35px;
+  font-weight: 800;
+  line-height: 80px;
+  padding: 0 100px;
+}
+
+nav > ul
+{
+  float: right;
+  margin-right: 20px;
+}
+
+nav > ul > li
+{
+  line-height: 80px;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+nav > ul > li > a
+{
+  color: #fff;
+  font-size: 17px;
+  text-transform: uppercase;
+  padding: 7px 13px;
+  border-radius: 3px;
+}
+
+nav >ul >li>a.active, nav>ul>li>a:hover
+{
+  text-decoration: none;
+  background: #000;
+  transition: 0.5s;
+}
+
+.checkbtn
+{
+  font-size: 30px;
+  color: #fff;
+  float: right;
+  line-height: 80px;
+  margin-right: 40px;
+  cursor: poiter;
+  display: none;
+}
+
+#check
+{
+  display: none;
+}
+
+@media (max-width: 952px)
+{
+  label.logo
+  {
+    font-size: 30px;
+    padding-left: 50px;
+  }
+  
+  nav > ul > li > a
+  {
+    font-size: 16px;
+  }
+}

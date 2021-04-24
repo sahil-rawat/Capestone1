@@ -27,6 +27,17 @@
 	<% let db=JSON.parse(data) %>
 
 	<div class="row no-gutters jumbotron" style="padding: 0px;">
+		<nav>
+			<input type="checkbox" id="check">
+			<label for="check" class="checkbtn">
+			  <i class="las la-bars"></i>
+			</label>
+			<label for="logo" class="logo"><a href="/" style="text-decoration: none;">WMS</a></label>
+			<ul>
+			  <li><a style="text-decoration: none; color: #fff;"  onclick="logout()" >Logout</a></li>
+			  
+			</ul>
+		  </nav>
 		<div class="col-xl-9">
 			<div class="jumbotron">
 				<div class="container">
@@ -58,7 +69,7 @@
 			</div>
 		</div>
 
-		<div class="col-xl-3">
+		<div class="col-xl-3 d-none d-md-block">
 			<div class="card-body">
 				<div class="row">
 
@@ -117,9 +128,7 @@
 			</div>
 		</div>
 		<% } %> 
-		
-
-<form>
+		<form>
 </div>
 	<div class="jumbotron row no-gutters">
 		<div class="col-xl-5">
@@ -171,6 +180,29 @@
 	
 </body>
 <script src="/js/editProjDetails.js"></script>
+<script>
+
+	function logout() {
+
+	var request=new XMLHttpRequest()
+	request.open("POST", "/logout");
+	request.setRequestHeader("Content-Type","application/json")
+	request.send()
+	request.onreadystatechange = function () {
+  if(request.readyState === XMLHttpRequest.DONE) {
+	  var status = request.status;
+	  if (status === 0 || (status >= 200 && status < 400)) {
+		  window.location=(request.responseText)
+	  }else {
+			alert(request.responseText)
+		}
+  }
+}
+
+	
+	
+	}
+</script>
 
 <script> 
 
@@ -178,17 +210,14 @@ function handlesubmit(){
 	if(validateForm()){
 		event.preventDefault()
 		data=$('form').serializeJSON()
-		console.log(JSON.stringify(data));
 		var http = new XMLHttpRequest();
 		http.open("POST", "/project/<%= projid %>/submit");
 		http.setRequestHeader("Content-Type","application/json")
 		http.send(JSON.stringify(data));
-		console.log(http.responseText); 
 		http.onreadystatechange = function () {
 			if(http.readyState === XMLHttpRequest.DONE) {
 				var status = http.status;
 				if (status === 0 || (status >= 200 && status < 400)) {
-					console.log(http.responseText)
 					window.location=('/project/'+http.responseText)
 				} else {
 					alert("Something Went Wrong!! Please Try again Later!")
@@ -220,3 +249,5 @@ function handlesubmit(){
 	
 </script>
 </html>
+		
+
