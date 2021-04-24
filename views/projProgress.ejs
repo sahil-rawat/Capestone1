@@ -81,7 +81,7 @@
 						<% if( parseInt(((db.progress/db.totalprogress)*100)) < 50 ) { %>
 							<div class="progress-circle p<%= ((db.progress/db.totalprogress)*100).toFixed(0) %>">
 						<% } %>
-							<span id="_progress"><%= ((db.progress/db.totalprogress)*100).toFixed(2) %>%</span>
+							<span id="_progress"><%= ((db.progress/db.totalprogress)*100).toFixed(0) %>%</span>
 							<div class="left-half-clipper">
 								<div class="first50-bar"></div>
 								<div class="value-bar"></div>
@@ -161,7 +161,6 @@
 						</label>
 						<div class="tabContent">
 							<div id="myKanban<%= e %>" ></div>
-
 						</div>
 					</div>
 			 </div>

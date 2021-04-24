@@ -3,14 +3,12 @@
         $.fn.circleGraphic.defaults = {
             color: '#F90',
             startAngle: 0,
-            //endAngle:50
         };
 
         var opts = $.extend({}, $.fn.circleGraphic.defaults, options);
 
         var percentage = this.html();
         var ID = "c" + percentage + Math.random();
-        //alert(ID);
 
         this.append("<canvas id='" + ID + "'></canvas>");
 

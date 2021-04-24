@@ -5,18 +5,161 @@ var dateFormat = require("dateformat");
 const db=fs.firestore()
 
 exports.getDetails= async id=> {
-  var duration=0
   const Project = (await db.collection('Projects').doc(id).get()).data()
-  // Object.keys(Project.task['subtask']).forEach(e=>{
-  //   Object.keys(Project.task['subtask'][e]['subtask']).forEach(j=>{
-  //     duration+=parseInt(Project.task['subtask'][e]['subtask'][j]['duration'])
-  //     console.log(duration)
-  //   })
-  // })
   
   return Project
 }
 
+exports.postcomment = async (task,msg,name,id)=>{
+
+  const Project = (await db.collection('Projects').doc(id).get()).data()
+  var now = new Date();
+  const path=task.split(',')
+
+  if(path.length ==1){
+    if(!Project['task']['subtask'][path[0]]['comments']){
+      Project['task']['subtask'][path[0]]['comments']=
+      [
+        {
+          'id':0,
+          'name':name,
+          'message':msg,
+          'commentDate':dateFormat(now,'mediumDate'),
+          'replies':[]
+        }
+      ]
+    }else{
+      var id1=Project['task']['subtask'][path[0]]['comments'].length
+
+      Project['task']['subtask'][path[0]]['comments'].push(
+        {
+          'id':id1,
+          'name':name,
+          'message':msg,
+          'commentDate':dateFormat(now,'mediumDate'),
+          'replies':[]
+        })
+    }
+
+    await db.collection('Projects').doc(id).update({
+      'task':Project['task'],
+    },{ merge: true })
+
+  }else{
+    if(!Project['task']['subtask'][path[0]][path[1]][path[2]]['comments']){
+
+      Project['task']['subtask'][path[0]][path[1]][path[2]]['comments']=[
+        {
+          'id':0,
+          'name':name,
+          'message':msg,
+          'commentDate':dateFormat(now,'mediumDate'),
+          'replies':[]
+        }]
+      
+    }else{
+      var id1=Project['task']['subtask'][path[0]][path[1]][path[2]]['comments'].length
+
+      Project['task']['subtask'][path[0]][path[1]][path[2]]['comments'].push(
+        {
+          'id':id1,
+          'name':name,
+          'message':msg,
+          'commentDate':dateFormat(now,'mediumDate'),
+          'replies':[]
+        })
+    }
+    
+    await db.collection('Projects').doc(id).update(
+      {
+      'task':Project['task'],
+      },{ merge: true }
+    )
+  }
+}
+
+
+
+exports.postreply = async (task,msg,name,id)=>{
+
+  const Project = (await db.collection('Projects').doc(id).get()).data()
+  var now = new Date();
+  const path=task.split(',')
+  if(path.length == 2){
+    var msgpre='@'+Project['task']['subtask'][path[0]]['comments'][path[1]]['name']+' '
+
+    Project['task']['subtask'][path[0]]['comments'][path[1]]['replies'].push(
+      {
+        'name':name,
+        'replyto':msgpre,
+        'message':msg,
+        'commentDate':dateFormat(now,'mediumDate'),
+      })
+    await db.collection('Projects').doc(id).update({
+      'task':Project['task'],
+    },{ merge: true })
+
+  }else{
+    
+    var msgpre='@'+Project['task']['subtask'][path[0]][path[1]][path[2]]['comments'][path[3]]['name']+' '
+
+    Project['task']['subtask'][path[0]][path[1]][path[2]]['comments'][path[3]]['replies'].push(
+      {
+        'name':name,
+        'replyto':msgpre,
+        'message':msg,
+        'commentDate':dateFormat(now,'mediumDate'),
+
+      })
+    await db.collection('Projects').doc(id).update(
+      {
+        'task':Project['task'],
+      },{ merge: true }
+    )
+  }
+}
+
+
+exports.postreply2 = async (task,msg,name,id)=>{
+
+  const Project = (await db.collection('Projects').doc(id).get()).data()
+  var now = new Date();
+  const path=task.split(',')
+  console.log(path,path.length)
+  if(path.length == 3){
+    
+    var msgpre='@'+Project['task']['subtask'][path[0]]['comments'][path[1]]['replies'][path[2]]['name']+' '
+    console.log(msgpre)
+
+     Project['task']['subtask'][path[0]]['comments'][path[1]]['replies'].push(
+      {
+        'name':name,
+        'replyto':msgpre,
+        'message':msg,
+        'commentDate':dateFormat(now,'mediumDate'),
+      })
+    await db.collection('Projects').doc(id).update({
+      'task':Project['task'],
+    },{ merge: true })
+
+  }else{
+    var msgpre='@'+Project['task']['subtask'][path[0]][path[1]][path[2]]['comments'][path[3]]['replies'][path[4]]['name']+' '
+
+    Project['task']['subtask'][path[0]][path[1]][path[2]]['comments'][path[3]]['replies'].push(
+      {
+        'name':name,
+        'replyto':msgpre,
+        'message':msg,
+        'commentDate':dateFormat(now,'mediumDate'),
+
+      })
+    await db.collection('Projects').doc(id).update(
+      {
+        'task':Project['task'],
+      },{ merge: true }
+    )
+   }
+}
 
 exports.setDetails= async (data,id) =>{
   var skill= data.task.skills.split(' ')

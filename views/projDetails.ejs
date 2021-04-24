@@ -72,16 +72,20 @@
 					<div class="col-xl-3">	
 					</div>
 					<div class="col-xl-6">
-						<div class="progress-circle p30">
-							<span id="_progress"><%= ((db.progress/db.totalprogress)*100).toFixed(2) %>%</span>
+						<% if( parseInt(((db.progress/db.totalprogress)*100)) > 50 ){ %>
+							<div class="progress-circle over50 p<%= ((db.progress/db.totalprogress)*100).toFixed(0) %>">
+						<% } %>
+						<% if( parseInt(((db.progress/db.totalprogress)*100)) <= 50 ) { %>
+							<div class="progress-circle p<%= ((db.progress/db.totalprogress)*100).toFixed(0) %>">
+						<% } %>
+							<span id="_progress"><%= ((db.progress/db.totalprogress)*100).toFixed(0) %>%</span>
 							<div class="left-half-clipper">
 								<div class="first50-bar"></div>
 								<div class="value-bar"></div>
 							</div>
 				 		</div>
-				 		Overall Progress
+				 		Overall Progress 
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -147,6 +151,7 @@
 	</div>
 
 </div>
+
 <div class="row no-gutters">
 	<div class="col-xl-5">
 		<div class="text-left">
@@ -291,11 +296,15 @@
 <script src="/js/projDetails.js"></script>
 <script>
 	$(document).ready(function(){
+		$('.progressWrapper progress').each(function(){
+			var prgsVal = $(this).data('value');
+			var maxN = $(this).attr('max');
+			var pop = prgsVal/maxN * 100
+			
+			$(this).prev().css('left', pop + '%').text(prgsVal);
+			$(this).val(prgsVal);
+		  });
 		setTimeout(function(){ test(); });
 	});
 </script>
-
-
-
-
 </html>

@@ -1,9 +1,7 @@
 const express = require('express');
 const router=express.Router()
 const isAuthenticated=require('../middleware/isAuthenticated')
-const {getDetails,setDetails,createProject, projectDetails, checkProject,progressUpdate} =require('../controllers/functions')
-
-
+const {getDetails,setDetails,createProject, projectDetails, checkProject,progressUpdate,postcomment,postreply,postreply2} =require('../controllers/functions')
 
 router.use(isAuthenticated)
 router.get('/createproject',function(req,res){
@@ -45,11 +43,43 @@ router.post('/createproject/submit',function(req,res){
 })
 
 
+router.post('/:id/mentorReview/post',function(req,res){
+	async function render(){
+		data=req.body
+		data['name']=req.user.displayName
+		
+		await postcomment(data['path'],data['message'],data['name'],req.params.id)
+		res.send(req.params.id)
+	}
+	render()
+})
+
+router.post('/:id/mentorReview/reply',function(req,res){
+	async function render(){
+		data=req.body
+		data['name']=req.user.displayName
+		await postreply(data['path'],data['message'],data['name'],req.params.id)
+		res.send(req.params.id)
+	}
+	render()
+})
+
+router.post('/:id/mentorReview/reply2',function(req,res){
+	async function render(){
+		data=req.body
+		data['name']=req.user.displayName
+		await postreply2(data['path'],data['message'],data['name'],req.params.id)
+		res.send(req.params.id)
+	}
+	render()
+})
+
 router.get('/:id/edit',function(req,res){
 	async function render(){
 		isAllowed = await checkProject(req.user.uid,req.params.id)
 		projDetail = await getDetails(req.params.id)
 		if(isAllowed && projDetail){
+
 			if(!projDetail.submitted){
 				res.render('editProjDetails',{ 
 				data:JSON.stringify(projDetail),
@@ -64,10 +94,10 @@ router.get('/:id/edit',function(req,res){
 		}else{
 			res.render('404')
 		}
-		
 	}
 	render()
-})
+}) 
+
 router.post('/:id/submit',function(req,res){
 	async function render(){
 		data=req.body
@@ -117,6 +147,7 @@ router.post('/:id/submit',function(req,res){
 					'item':[],
 					'prog':0
 				},
+
 				{
 					'id' : '_completed',
 					'title'  : 'Completed',
@@ -180,8 +211,6 @@ router.post('/:id/progress/update',function(req,res){
 	}
 	render()
 })
-
-
 
 router.get('/:id/review',function(req,res){
 	async function render(){

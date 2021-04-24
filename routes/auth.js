@@ -4,7 +4,6 @@ const express = require('express');
 const router=express.Router()
 const db=fs.firestore()
 
-
 router.get('/',function(req,res){
     res.redirect('/project/dashboard')
 })
@@ -43,11 +42,6 @@ router.post("/register",function(req,res){
         });
 })
 
-
-
-
-
-
 router.post("/login",function(req,res){
 
     var email = req.body.usn;
@@ -57,7 +51,6 @@ router.post("/login",function(req,res){
       {
         res.redirect("/login")
       }
-  
   
       firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
@@ -69,7 +62,6 @@ router.post("/login",function(req,res){
       res.status(401).send(errorMessage)
     });
 })
-
 
 router.post("/logout",function(req,res){
 

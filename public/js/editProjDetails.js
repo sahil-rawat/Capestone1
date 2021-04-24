@@ -1,4 +1,5 @@
 function validateForm(){
+
 	event.preventDefault()
 	var inputs=document.getElementsByClassName('taskinput')
 	for (let index = 0; index < inputs.length; index++) {
@@ -7,8 +8,8 @@ function validateForm(){
 			inputs[index].style.border="2px solid red"
 			return false
 		}
-		
 	}
+	
 	var durationinput=document.getElementsByClassName('durationinput')
 	for (let index = 0; index < durationinput.length; index++) {
 		durationinput[index].style.border=""
@@ -16,16 +17,11 @@ function validateForm(){
 			durationinput[index].style.border="2px solid red"
 			return false
 		}
-		
 	}
-	
 	return true
 }
 
-
 function addchild (){
-
-
 	var a = event.target;
 
 	var i2 = a.cloneNode(true);
@@ -46,7 +42,6 @@ function addchild (){
 
 	input.id=input.id.slice(0,input.id.length-6)+'[subtask]['+(event.target.parentElement.childElementCount-2)+']'+'[name]'
 
-
 	input.name=input.name.slice(0,input.name.length-6)+'[subtask]['+(event.target.parentElement.childElementCount-2)+']'+'[name]'
 
 	input.value=''
@@ -65,7 +60,6 @@ function addchild (){
 	var div=document.createElement('div')
 	var description=document.createElement('div')
 	var descriptiondiv=document.createElement('div')
-
 
 	var h3=document.createElement('h3')
 
@@ -97,9 +91,9 @@ function addchild (){
 		duration.placeholder='Duration (In Days)'
 		durationdiv.appendChild(duration)
 		div.appendChild(durationdiv)
-		div.appendChild(document.createElement('br'))
-		div.appendChild(document.createElement('br'))
 
+		div.appendChild(document.createElement('br'))
+		div.appendChild(document.createElement('br'))
 	}
 
 	description.id='inp'
@@ -109,22 +103,17 @@ function addchild (){
 	descriptiondiv.appendChild(label)
 	descriptiondiv.appendChild(description)
 
-
 	div.appendChild(descriptiondiv)
 	div.id=input.id.slice(0,input.id.length-6)+'[description]'
 
 	descdiv.appendChild(div)
 }
 
-
-
 function delself (){
 	id=event.target.nextSibling.id.slice(0,event.target.id.length-6)+'[description]'
 	event.target.parentElement.remove()
 	document.getElementById(id).remove()
-	
 }
-
 
 function showdesc(){
 	

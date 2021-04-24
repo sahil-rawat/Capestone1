@@ -5,7 +5,7 @@
     padding: 4px;
     font-family: Arial;
   }
-  
+
   span.tag {
     cursor: pointer;
     display: block;
@@ -71,11 +71,6 @@
  
 }
 
-
-
-
-
-
 .progress-circle {
 	font-size: 20px;
 	margin: 20px;
@@ -137,8 +132,8 @@
 	width: 5em;
 	height: 5em;
  }
+
  .progress-circle:not(.over50) .first50-bar{ display: none; }
- 
  
  .progress-circle.p0 .value-bar { display: none; }
  .progress-circle.p1 .value-bar { transform: rotate(4deg); }
@@ -242,8 +237,6 @@
  .progress-circle.p99 .value-bar { transform: rotate(356deg); }
  .progress-circle.p100 .value-bar { transform: rotate(360deg); }
 
-
-
 nav
 {
   background: #0a3d62;
@@ -305,7 +298,6 @@ nav >ul >li>a.active, nav>ul>li>a:hover
   display: none;
 }
 
-/* For Desktop */
 @media (max-width: 952px)
 {
   label.logo
@@ -319,4 +311,3 @@ nav >ul >li>a.active, nav>ul>li>a:hover
     font-size: 16px;
   }
 }
-

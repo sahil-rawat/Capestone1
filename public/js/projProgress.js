@@ -25,6 +25,7 @@ function hidename(){
 
 var pp=JSON.parse(document.getElementById('pp').value)
 var pid=document.getElementById('pid').value
+
 Object.keys(pp).forEach(e=>{
 	var KanbanTest = new jKanban({
 		element : '#myKanban'+e,
@@ -33,42 +34,37 @@ Object.keys(pp).forEach(e=>{
 		boards  :pp[e],
 		itemHandleOptions: {
             enabled : true,
-            customHandler       : "<div class='item_handle'><h5>%s</h5> <br><button class='btn btn-secondary'><i class='fa fa-comment'></i> comment</button></div> "
+            customHandler : "<div class='item_handle'><h5>%s</h5> <br><button class='btn btn-secondary' onclick='Comment()'><i class='fa fa-comment'></i> comment</button></div> "
         },
 		dropEl : function (el, target, source, sibling) {   
 			var data=el.getAttribute('data-eid')
-
 			
 			var boardNum=KanbanTest.options.element.slice(-1)
 			var opt=KanbanTest.options.boards
 			var pp_temp={}
-			var progress;
+
+			var srcParent=source.parentElement.getAttribute('data-order')-1
+			var trgParent=target.parentElement.getAttribute('data-order')-1
 
 
-			opt[source.parentElement.getAttribute('data-order')-1]['prog']-=1
-			opt[target.parentElement.getAttribute('data-order')-1]['prog']+=1
-
+			opt[srcParent]['prog']-=1
+			opt[trgParent]['prog']+=1
 
 			var index;
 			
-			opt[source.parentElement.getAttribute('data-order')-1]['item'].forEach((e,i)=>{
+			opt[srcParent]['item'].forEach((e,i)=>{
 				if(e.id==data){
 				index=i
 				}
 			})
-			var item=opt[source.parentElement.getAttribute('data-order')-1]['item'][index]
-			opt[source.parentElement.getAttribute('data-order')-1]['item'].splice(index,1)
-			opt[target.parentElement.getAttribute('data-order')-1]['item'].splice(index, 0, item)
 
-			if(target.parentElement.getAttribute('data-order')==1){
-				progress=0
-			}else if(target.parentElement.getAttribute('data-order')==2){
-				progress=30
-			}else if(target.parentElement.getAttribute('data-order')==3){
-				progress=60
-			}else{
-				progress=100
+			var item=opt[srcParent]['item'][index]
+
+			if(opt[srcParent]['item'].length >=1){
+				opt[srcParent]['item'].splice(index,1)
 			}
+
+			opt[trgParent]['item'].splice(index, 0, item)
 
 			pp_temp[boardNum]=opt
 			
@@ -82,15 +78,16 @@ Object.keys(pp).forEach(e=>{
 			http.send(JSON.stringify(data));
 			http.onreadystatechange = function () {
 				var prog=http.responseText
-				document.getElementById("_progress").innerHTML=http.responseText
-				document.getElementById("_progress").parentElement.classList.add('p'+prog)
+				var elem=document.getElementById("_progress")
+				elem.innerHTML=http.responseText+'%'
+				elem.parentElement.classList=['progress-circle p'+prog]
+				if(prog>50){
+					elem.parentElement.classList.add('over50')
+				}
 			}
 		} 
 	});
-
 })
-
-
 
 function toggle(){
 	console.log("myKanban"+event.target.id)
@@ -102,4 +99,8 @@ function toggle(){
 		a.style.display='none';
 	}
 	console.log(a)
+}
+
+function Comment(){
+	window.location=("/project/"+pid+"/review")
 }

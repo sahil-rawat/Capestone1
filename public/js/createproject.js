@@ -1,6 +1,4 @@
 function notRegistered(val){
-  console.log(typeof val)
-  console.log(val[0])
   
   document.getElementById(val[0]).style.border="1px solid red"
   
@@ -62,10 +60,8 @@ function formSubmit() {
   data['submitted']=false
   data['show']=true
 
-
   formdata['team']=team
   formdata['data']=data
-  
 
   var dataJson=JSON.stringify(formdata)
 
@@ -76,19 +72,17 @@ function formSubmit() {
 
   request.onreadystatechange = function () {
     if(request.readyState === XMLHttpRequest.DONE) {
-    document.getElementById("loader").style.display="none" 
-		var status = request.status;
-		if (status === 0 || (status >= 200 && status < 400)) {
-      window.location=(request.responseText)
-		} else {
-      if(request.status==404){
-        notRegistered(JSON.parse(request.responseText))
-      }else{
-			alert("Something Went Wrong!! Please Try again Later!")
+      document.getElementById("loader").style.display="none" 
+      var status = request.status;
+      if (status === 0 || (status >= 200 && status < 400)) {
+        window.location=(request.responseText)
+      } else {
+        if(request.status==404){
+          notRegistered(JSON.parse(request.responseText))
+        }else{
+          alert("Something Went Wrong!! Please Try again Later!")
+        }
       }
-		}
-	}else{
-    
+    }
   }
 }
-  }

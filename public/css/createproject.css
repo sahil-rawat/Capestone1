@@ -1,5 +1,3 @@
-
-
 input {
   border: 2px solid #eeeeee;
   height: 46px;
@@ -15,8 +13,6 @@ input {
   font-weight: 300;
   font-family: source-sans-pro,sans-serif;
 }
-
-
 
 #submit {
   display: block;
@@ -106,8 +102,6 @@ p {
   font-family: source-sans-pro;
 }
 
-
-
 .loader{
   
   position: fixed;
@@ -120,6 +114,3 @@ body{
   background-image: url('/images/1.jpg');
   background-size: cover;
 }
-
-
-
