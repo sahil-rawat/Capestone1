@@ -26,7 +26,7 @@
 
 	<% let db=JSON.parse(data) %>
 	
-
+	<div><%=db['Comments']['Timestamp 1']['Comment']%></div>
 	<div class="row no-gutters">
 		<nav>
 			<input type="checkbox" id="check">
@@ -161,12 +161,13 @@
         <div class="col-md-12 bootstrap snippets">
         	<div class="panel">
           		<div class="panel-body">
-           	 		<textarea class="form-control" rows="2" placeholder="Write your comments here..."></textarea>
+           	 		<textarea class="form-control comment" rows="2" placeholder="Write your comments here..."></textarea>
             		<div class="mar-top clearfix">
-              			<button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i> Comment</button>
+              			<button onclick="comment()" class="btn btn-sm btn-primary pull-right " type="submit"><i class="fa fa-pencil fa-fw"></i> Comment</button>
             		</div>
           		</div>
         	</div>
+
         	<div class="panel">
             	<div class="panel-body">
             
