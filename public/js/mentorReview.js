@@ -27,3 +27,6 @@ function hidename(){
 	document.getElementById(id).style.display='none'
 }
 
+function comment(){
+	
+}
