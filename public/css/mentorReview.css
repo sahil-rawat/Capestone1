@@ -1467,5 +1467,97 @@ select {
    width: 60%;
  }
  
+ .progress-bar-70::before {
+   width: 70%;
+ }
  
+ .progress-bar-80::before {
+   width: 80%;
+ }
+ 
+ .progress-bar-90::before {
+   width: 90%;
+ }
+ 
+ .progress-bar-100::before {
+   width: 100%;
+ }
+ 
+ .progressWrapper {
+   position: relative;
+   width: 250px;
+ }
+ .progressWrapper .progressColor {
+	 width: 250px;
+	 height: 12px;
+	 margin-bottom: 60px;
+	 appearance:none;
+	 -moz-appearance: none;
+	 -webkit-appearance: none;
+	 border: none;
+	 border-radius: 2px;
+	 overflow: hidden;
+	 background-color: #d7d7d7;
+ }
+ .progressWrapper .progressColor::webkit-progress-bar {
+   background-color: #d7d7d7;
+   -moz-transition: 4s;
+   -o-transition: 4s;
+   -webkit-transition: 4s;
+   transition: 4s;
+ }
+ .progressWrapper .tooltip2 {
+   display: inline-block;
+   background-color: #717880;
+   font-size: 11px;
+   color: #fff;
+   padding: 4px 8px;
+   width: auto;
+   border-radius: 3px;
+   position: absolute;
+   top: -27px;
+   left: 0%;
+   margin-left: -15px;
+ }
+ 
+ .progressWrapper .tooltip2:after {
+   content: '';
+   border-left: 3px solid transparent;
+   border-right: 3px solid transparent;
+   border-top: 3px solid #717880;
+   position: absolute;
+   left: 50%;
+   top: 100%;
+   -moz-transform: translateX(-50%);
+   -o-transform: translateX(-50%);
+   transform: translateX(-50%);
+   -ms-transform: translateX(-50%);
+   -webkit-transform: translateX(-50%);  
+ }
+ 
+ .progressWrapper .tooltip2 {
+   -moz-transition: 0.4s;
+   -o-transition: 0.4s;
+   -webkit-transition: 0.4s;
+   transition: 0.4s;
+   left: 0%;
+ }
+ 
+ .progressWrapper progress.progressColor::-moz-progress-bar {
+   background: #08da9d;
+   border-radius: 2px;
+   position: relative;
+ }
+ 
+ .progressWrapper progress.progressColor::-webkit-progress-value {
+   background: #08da9d;
+   border-radius: 2px;
+   position: relative;
+ }
+ .progressColor progress[value]{
+   color: #08da9d;
+ }
+ .progressColor progress[value]::-webkit-progress-bar {
+   background-color: #d7d7d7;
+ }
  */
