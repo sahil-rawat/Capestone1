@@ -38,6 +38,10 @@
 			  
 			</ul>
 		  </nav>
+		
+		<!-- Display the details of project like project name,
+		project duration that is for how long it will exist,
+		team details , mentor details -->  
 		<div class="col-xl-9">
 			<div class="jumbotron">
 				<div class="container">
@@ -68,7 +72,9 @@
 				</div>
 			</div>
 		</div>
-
+		<!-- Progress information is retrived that what task has been 
+		assigned and how much progress has been done in that 
+		particular task with that overall progress is displayed at the top -->
 		<div class="col-xl-3 d-none d-md-block">
 			<div class="card-body">
 				<div class="row">
@@ -100,7 +106,9 @@
 		</div>
 	</div>
 
-
+	<!-- Here different options are available that whether
+	to go to project through git link where it is uploaded or some google doc link
+	or redirect to slack channel -->
 	<% if (db['git'] || db['doc'] || db['slack']) { %> 
 
 		<div class="no-gutters">
@@ -129,6 +137,9 @@
 		</div>
 		<% } %> 
 		<form>
+			<!-- Display of task assigned whether it is front end development , backend development, testing, deployment.
+			Based on the task id of the particular task it is been retrived from database
+			and shown on website -->
 </div>
 	<div class="jumbotron row no-gutters">
 		<div class="col-xl-5">
@@ -176,6 +187,47 @@
 	</div>
 </form>
 
+
+<!-- <div class="jumbotron row no-gutters">
+		<div class="col-xl-5">
+			<div class="text-left">
+				<div class="card-body">
+					<h3>Project Details</h3>
+					<br>
+					<ul id=1 style="list-style-type: none;">
+						<li >
+							<input onchange="render()" name=task[name] id="task[name]" onclick="showdesc()" id=0 class="list-group-item list-group-item-primary taskinput" style="display:inline-block; margin:5px;" placeholder="TaskName">
+							<i onclick="return addchild()" class="fa fa-plus-circle" aria-hidden="true"></i>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-7">
+			<div class="text-left">
+				<div class="card-body" id="description">
+					<div class="form-group" id="task[description]">
+						<h3 id=task[heading]></h3>
+						<div id="inp" >
+							<input name="task[category]" id="task[category]" type="text" placeholder="Category"/>
+						</div>
+						
+						<br>
+						<br>
+						<div id="tags" >
+							<input type="text" placeholder="Add a skill" />
+							<input name="task[skills]" id="task[skills]" type="hidden" value=""/>
+						</div>
+						<br><br><br>
+						<label >Task Description: </label>
+						<div id="inp" style="display: block;">
+						<textarea class="form-control" name="task[description]" id="task[description]" rows="15"></textarea>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+ -->
 	
 	
 </body>
@@ -249,5 +301,9 @@ function handlesubmit(){
 	
 </script>
 </html>
+
+
+
+
 		
 
