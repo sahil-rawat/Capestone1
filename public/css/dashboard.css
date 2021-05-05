@@ -85,7 +85,7 @@ a:hover{
 
 
 #project{
-    color: darkblue;
+    color: blue;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
     font-size: 30px;
@@ -96,6 +96,7 @@ a:hover{
     justify-content: center;
     align-items: center;
     position: relative;
+    
 }
 
 hr {
