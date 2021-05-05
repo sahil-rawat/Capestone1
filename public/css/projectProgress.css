@@ -182,9 +182,9 @@ label.logo
 {
   color: #fff;
   font-size: 35px;
-  font-weight: 800;
+  font-weight: 600;
   line-height: 80px;
-  padding: 0 100px;
+  padding: 0 50px;
 }
 
 nav > ul
@@ -235,27 +235,33 @@ nav > ul > li > a.active, nav > ul > li > a:hover
 
   .backlog {
 	background-color: #EF767A;
+  border-radius: 1%;
   }
 
   .inprogress {
 	background-color: #26C485;
+  border-radius: 1%;
   }
 
   .review {
 	background-color: #F4F482;
+  border-radius: 1%;
   }
 
   .completed {
 	background-color: #166088;
+  border-radius: 1%;
   }
 
 
 .tab {
-	margin-bottom: 20px;
+	padding-bottom: 20px;
+  
 }
 
 .tab input {
 	display: none;
+  
 }
 
 .tab label {

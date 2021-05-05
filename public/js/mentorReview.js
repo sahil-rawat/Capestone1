@@ -54,7 +54,7 @@ function replyinp(){
 	replytext.id='reply'
 	replytext.classList.add('form-control')
 	replytext.rows=3
-	replytext.placeholder="Write Your Reply Herer...."
+	replytext.placeholder="Write Your Reply Here...."
 
 	var buttondiv=document.createElement('div')
 	buttondiv.classList.add('mar-top', 'clearfix')

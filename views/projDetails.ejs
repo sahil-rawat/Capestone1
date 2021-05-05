@@ -64,6 +64,36 @@
 				</div>
 			</div>
 		</div>
+		<!-- <div class="col-xl-9">
+			<div class="jumbotron ">
+				<div class="container">
+					<h2  class="display-5">
+						Project Name : <%=db['project_name']%>
+					</h2>
+					<hr class="my-2">
+					<p class="card-text">
+						<% if (db['duration']) { %>
+							Duration : <%=db['duration']%> Days <br>
+						<% } %>
+						
+						Team:
+					
+						<% Object.keys(db['team']).forEach(element => { %>
+								<img onmouseover="showname()" onmouseout="hidename()" name="<%= element %>" src="https://ui-avatars.com/api/?background=random&rounded=true&size=32&name=<%= element.split(" ").join("+") %> %>">  
+								<span id="<%= element %>" class="tooltiptext"><%= element %> </span>
+						<% }) %>
+						<br>
+						<% if (db['mentor']) { %>
+							Mentor:
+							<% Object.keys(db['mentor']).forEach(element => { %>
+								<img onmouseover="showname()" onmouseout="hidename()" name="<%= element %>" src="https://ui-avatars.com/api/?background=random&rounded=true&size=32&name=<%= element.split(" ").join("+") %> %>">  
+								<span id="<%= element %>" class="tooltiptext"><%= element %> </span>
+						<% }) %>
+						<% } %>
+					</p>	
+				</div>
+			</div>
+		</div> -->
 
 		<div class="col-xl-3 d-none d-md-block">
 			<div class="card-body">
@@ -84,7 +114,7 @@
 								<div class="value-bar"></div>
 							</div>
 				 		</div>
-				 		Overall Progress 
+				 		<p class="pl-3">Overall Progress</p>
 					</div>
 				</div>
 			</div>
@@ -117,7 +147,35 @@
 			</div>
 		</div>
 	</div>
-	<% } %> 
+	<% } %>
+	<!-- <% if (db['git'] || db['doc'] || db['slack']) { %> 
+
+		<div class="no-gutters">
+			<div class="col-xl-12">
+				<div class="card text-left">
+					<div class="card-body">
+						<% if (db['git']) { %>
+							
+							<a class="btn btn-secondary" href=<%=db['git']%> >
+								<i class="bi bi-github" aria-hidden="true"></i> Go To Git
+							</a>
+						<% } %>
+						<% if (db['doc']) { %>
+							<a class="btn btn-primary" href=<%=db['doc']%> >
+								<i class="bi bi-file-earmark-word" aria-hidden="true"></i> Go To Doc 
+							</a>
+						<% } %>
+						<% if (db['slack']) { %>
+							<a class="btn btn-warning" href=<%= db['slack']%> >
+								<i class="bi bi-slack" aria-hidden="true"></i> Go To Slack
+							</a>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<% } %>  
+ -->
 
 
 	<div class="no-gutters">
@@ -149,6 +207,35 @@
 			</div>
 		</div>
 	</div>
+	<!-- <div class="no-gutters">
+		<div class="col-xl-12">
+			<div class="card text-left">
+				<div class="card-body" style="padding: 20px 0px;">
+					<nav class="navbar navbar-expand-custom navbar-mainbg">
+					
+						<div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+								<ul class="navbar-nav">
+										<div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+										
+										<li class="nav-item active">
+												<a class="nav-link" href="/project/<%=db['projid']%>">Project Details</a>
+										</li>
+										<li class="nav-item">
+												<a class="nav-link" href="/project/<%=db['projid']%>/progress">Project Progress</a>
+										</li>
+										<li class="nav-item">
+												<a class="nav-link" href="/project/<%=db['projid']%>/review">Mentor Review<div class="d-none d-sm-block">
+													
+												</div></a>
+										</li>
+								</ul>
+						</div>
+				</nav>
+					
+				</div>
+			</div>
+		</div>
+	</div> -->
 
 </div>
 
@@ -157,31 +244,30 @@
 		<div class="text-left">
 			<div class="card-body">
 				<h3>Project Details</h3><br>
-				
 				<ul style="list-style-type: none;"> 
 					<li>
 						<i class="fa fa-plus-circle" aria-hidden="true"></i>
-						<span class="list-group-item list-group-item-primary" style="display:inline-block; margin:5px;" id="<%= db['task'].name %>">
+						<span class="list-group-item list-group-item-primary rounded-lg" style="display:inline-block; margin:5px;" id="<%= db['task'].name %>">
 							<%= db['task'].name %>
 						</span>
 						<ul style="list-style-type: none;display: none;">
 								<%for (var i in db['task']['subtask']) { %>
 									<li> 
 										<i  class="fa fa-plus-circle" aria-hidden="true"></i>
-										<span class="list-group-item list-group-item-danger " id="<%= db['task']['subtask'][i]['name']%>" style="display: inline-block;margin: 5px;">
+										<span class="list-group-item list-group-item-danger rounded-lg" id="<%= db['task']['subtask'][i]['name']%>" style="display: inline-block;margin: 5px;">
 											<%= db['task']['subtask'][i]['name'] %>
 										</span>
 										<ul style="list-style-type: none;display: none;">
 											<% for( var j in db['task']['subtask'][i]['subtask'] ) { %>
 												<li> 
 													<i class="fa fa-plus-circle" aria-hidden="true"></i>
-													<span class="list-group-item list-group-item-success"id="<%= db['task']['subtask'][i]['subtask'][j]['name'] %> " style="display: inline-block;margin: 5px;">
+													<span class="list-group-item list-group-item-success rounded-lg"id="<%= db['task']['subtask'][i]['subtask'][j]['name'] %> " style="display: inline-block;margin: 5px;">
 														<%= db['task']['subtask'][i]['subtask'][j]['name'] %> 
 													</span>
 													<ul style="list-style-type: none;display: none;">
 														<% for( var k in db['task']['subtask'][i]['subtask'][j]['subtask'] ) { %>
 															<li>
-																<span class="list-group-item list-group-item-warning" id="<%= db['task']['subtask'][i]['subtask'][j]['subtask'][k]['name'] %>" style="display: inline-block;margin: 5px;">
+																<span class="list-group-item list-group-item-warning rounded-lg" id="<%= db['task']['subtask'][i]['subtask'][j]['subtask'][k]['name'] %>" style="display: inline-block;margin: 5px;">
 																<%= db['task']['subtask'][i]['subtask'][j]['subtask'][k]['name'] %>
 																</span>
 															</li>

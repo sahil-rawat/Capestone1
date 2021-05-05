@@ -1,3 +1,4 @@
+
 const firebase = require('../controllers/auth')
 
 isAuthenticated=(req, res, next) =>{
@@ -11,3 +12,4 @@ isAuthenticated=(req, res, next) =>{
   }
 
 module.exports=isAuthenticated
+
