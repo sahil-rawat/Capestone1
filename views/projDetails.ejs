@@ -114,7 +114,7 @@
 								<div class="value-bar"></div>
 							</div>
 				 		</div>
-				 		Overall Progress 
+				 		<p class="pl-3">Overall Progress</p>
 					</div>
 				</div>
 			</div>
@@ -244,31 +244,30 @@
 		<div class="text-left">
 			<div class="card-body">
 				<h3>Project Details</h3><br>
-				
 				<ul style="list-style-type: none;"> 
 					<li>
 						<i class="fa fa-plus-circle" aria-hidden="true"></i>
-						<span class="list-group-item list-group-item-primary" style="display:inline-block; margin:5px;" id="<%= db['task'].name %>">
+						<span class="list-group-item list-group-item-primary rounded-lg" style="display:inline-block; margin:5px;" id="<%= db['task'].name %>">
 							<%= db['task'].name %>
 						</span>
 						<ul style="list-style-type: none;display: none;">
 								<%for (var i in db['task']['subtask']) { %>
 									<li> 
 										<i  class="fa fa-plus-circle" aria-hidden="true"></i>
-										<span class="list-group-item list-group-item-danger " id="<%= db['task']['subtask'][i]['name']%>" style="display: inline-block;margin: 5px;">
+										<span class="list-group-item list-group-item-danger rounded-lg" id="<%= db['task']['subtask'][i]['name']%>" style="display: inline-block;margin: 5px;">
 											<%= db['task']['subtask'][i]['name'] %>
 										</span>
 										<ul style="list-style-type: none;display: none;">
 											<% for( var j in db['task']['subtask'][i]['subtask'] ) { %>
 												<li> 
 													<i class="fa fa-plus-circle" aria-hidden="true"></i>
-													<span class="list-group-item list-group-item-success"id="<%= db['task']['subtask'][i]['subtask'][j]['name'] %> " style="display: inline-block;margin: 5px;">
+													<span class="list-group-item list-group-item-success rounded-lg"id="<%= db['task']['subtask'][i]['subtask'][j]['name'] %> " style="display: inline-block;margin: 5px;">
 														<%= db['task']['subtask'][i]['subtask'][j]['name'] %> 
 													</span>
 													<ul style="list-style-type: none;display: none;">
 														<% for( var k in db['task']['subtask'][i]['subtask'][j]['subtask'] ) { %>
 															<li>
-																<span class="list-group-item list-group-item-warning" id="<%= db['task']['subtask'][i]['subtask'][j]['subtask'][k]['name'] %>" style="display: inline-block;margin: 5px;">
+																<span class="list-group-item list-group-item-warning rounded-lg" id="<%= db['task']['subtask'][i]['subtask'][j]['subtask'][k]['name'] %>" style="display: inline-block;margin: 5px;">
 																<%= db['task']['subtask'][i]['subtask'][j]['subtask'][k]['name'] %>
 																</span>
 															</li>
