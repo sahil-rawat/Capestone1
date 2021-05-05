@@ -87,7 +87,7 @@
 								<div class="value-bar"></div>
 							</div>
 				 		</div>
-				 		Overall Progress
+				 		<p class="pl-3">Overall Progress</p>
 					</div>
 				</div>
 			</div>
@@ -153,13 +153,13 @@
 	</div>
 	<% Object.keys(JSON.parse(pp)).forEach(e=>{ %>
 		<div class="row" style="padding: 10px">
-			 <div class="col-md-12" >
-				<div id="collapsibleTabs">
-					<div class="tab">
+			 <div class="col-md-12 rounded-lg" >
+				<div id="collapsibleTabs rounded-lg">
+					<div class="tab rounded-lg">
 						<input type="checkbox" name="tabCheckBox-<%= e %>" id="tabCheckBox-<%= e %>">
-						<label for="tabCheckBox-<%= e %>"><%= db['task']['subtask'][e].name %><span> </span>
+						<label for="tabCheckBox-<%= e %>"><%= db['task']['subtask'][e].name %><span class="rounded-lg"> </span>
 						</label>
-						<div class="tabContent">
+						<div class="tabContent rounded-lg">
 							<div id="myKanban<%= e %>" ></div>
 						</div>
 					</div>

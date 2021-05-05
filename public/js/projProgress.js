@@ -34,7 +34,7 @@ Object.keys(pp).forEach(e=>{
 		boards  :pp[e],
 		itemHandleOptions: {
             enabled : true,
-            customHandler : "<div class='item_handle'><h5>%s</h5> <br><button class='btn btn-secondary' onclick='Comment()'><i class='fa fa-comment'></i> comment</button></div> "
+            customHandler : "<div class='item_handle rounded-lg'><h5>%s</h5> <br><button class='btn btn-secondary rounded-lg' onclick='Comment()'><i class='fa fa-comment'></i> comment</button></div> "
         },
 		dropEl : function (el, target, source, sibling) {   
 			var data=el.getAttribute('data-eid')
